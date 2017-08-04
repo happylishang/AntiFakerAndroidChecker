@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:paddingBottom="16dp"
+              android:paddingLeft="@dimen/activity_horizontal_margin"
+              android:paddingRight="@dimen/activity_horizontal_margin"
+              android:paddingTop="@dimen/activity_vertical_margin"
+>
+
+    <Button
+        android:id="@+id/btn_dna"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取硬件信息"/>
+
+    <Button
+        android:id="@+id/btn_moni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Binder是不是模拟器 不崩溃"/>
+
+    <Button
+        android:id="@+id/btn_sycn_moni"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="同步获取是不是模拟器 64崩溃"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_dna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+            />
+
+            <TextView
+                android:id="@+id/tv_getdeviceid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="获取 deviceID"
+            />
+
+            <TextView
+                android:id="@+id/tv_all"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+
+                android:text=" MAC地址"
+            />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
