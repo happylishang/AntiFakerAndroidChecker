@@ -60,7 +60,7 @@ int detect() {
                     "\x04\x00\xA0\xE1"
                     "\xF0\x81\xBD\xE8";
 
-    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
+    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
                       (off_t) 0);
     if (exec == (void *) -1) {
         LOGI(" mmap faild ");
