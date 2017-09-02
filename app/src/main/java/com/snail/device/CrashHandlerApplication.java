@@ -1,8 +1,6 @@
 package com.snail.device;
 
 import android.app.Application;
-import android.app.Service;
-import android.view.WindowManager;
 
 /**
  * Author: snail
@@ -19,11 +17,6 @@ public class CrashHandlerApplication extends Application {
         super.onCreate();
         sApplication =this;
         Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
-
-
-        WindowManager windowManager= (WindowManager) getSystemService(Service.WINDOW_SERVICE);
-        windowManager.addView();
-
     }
 
     public static Application getApplication(){
