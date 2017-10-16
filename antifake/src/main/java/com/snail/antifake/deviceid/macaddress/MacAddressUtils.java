@@ -3,7 +3,7 @@ package com.snail.antifake.deviceid.macaddress;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.snail.device.deviceid.ShellAdbUtils;
+import com.snail.antifake.deviceid.ShellAdbUtils;
 
 import java.lang.reflect.Method;
 import java.net.NetworkInterface;

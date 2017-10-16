@@ -1,9 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-          package="com.snail.antifake"
->
+          package="com.snail.antifake">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_CONTENT_PROVIDERS_EXTERNALLY"/>
+
 
     <application android:allowBackup="true"
+                 android:label="@string/app_name"
                  android:supportsRtl="true">
         <service android:name=".jni.EmulatorCheckService"
                  android:process=":EmulatorCheckService"/>

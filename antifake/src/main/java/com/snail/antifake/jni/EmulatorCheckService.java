@@ -8,6 +8,8 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android.internal.telephony.IEmulatorCheck;
+
 /**
  * Author: snail
  * Data: 2017/7/25 下午12:17

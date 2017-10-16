@@ -6,7 +6,7 @@ import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.snail.device.deviceid.BinderUtil;
+import com.snail.antifake.deviceid.BinderUtil;
 
 import java.lang.reflect.Method;
 

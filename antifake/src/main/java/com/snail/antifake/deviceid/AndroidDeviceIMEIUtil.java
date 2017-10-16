@@ -5,12 +5,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.TelephonyManager;
 
-import com.snail.device.BatteryChangeReceiver;
-import com.snail.device.deviceid.androidid.IAndroidIdUtil;
-import com.snail.device.deviceid.deviceid.DeviceIdUtil;
-import com.snail.device.deviceid.emulator.EmuCheckUtil;
-import com.snail.device.deviceid.macaddress.MacAddressUtils;
-import com.snail.device.jni.PropertiesGet;
+import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
+import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
+import com.snail.antifake.deviceid.emulator.EmuCheckUtil;
+import com.snail.antifake.deviceid.macaddress.MacAddressUtils;
+import com.snail.antifake.jni.PropertiesGet;
+
 
 /**
  * Author: hzlishang

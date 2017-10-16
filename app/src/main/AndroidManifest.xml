@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.snail.device"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.snail.device"
+          android:versionCode="1"
+          android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -17,7 +18,8 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="IMEI DEVICEID"
+        android:label="模拟器检测"
+        tools:replace="label"
         android:name=".CrashHandlerApplication"
         android:theme="@style/AppTheme" >
 

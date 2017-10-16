@@ -9,11 +9,11 @@ import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.snail.device.deviceid.ShellAdbUtils;
-import com.snail.device.deviceid.deviceid.DeviceIdUtil;
-import com.snail.device.deviceid.deviceid.IPhoneSubInfoUtil;
-import com.snail.device.deviceid.deviceid.ITelephonyUtil;
-import com.snail.device.jni.PropertiesGet;
+import com.snail.antifake.deviceid.ShellAdbUtils;
+import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
+import com.snail.antifake.deviceid.deviceid.IPhoneSubInfoUtil;
+import com.snail.antifake.deviceid.deviceid.ITelephonyUtil;
+import com.snail.antifake.jni.PropertiesGet;
 
 import java.io.File;
 import java.io.FileInputStream;

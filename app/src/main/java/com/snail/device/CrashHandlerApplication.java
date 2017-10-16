@@ -2,6 +2,8 @@ package com.snail.device;
 
 import android.app.Application;
 
+import com.snail.antifake.deviceid.CrashHandler;
+
 
 /**
  * Author: snail
