@@ -31,6 +31,9 @@ import com.snail.device.jni.EmulatorCheckService;
 import com.snail.device.jni.EmulatorDetectUtil;
 import com.snail.device.jni.PropertiesGet;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 
 
@@ -71,6 +74,24 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView textView = null;
 
+                String cpuInfo = "";
+                try {
+                    String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
+                    ProcessBuilder cmd = new ProcessBuilder(args);
+                    Process process = cmd.start();
+                    StringBuffer sb = new StringBuffer();
+                    String readLine = "";
+                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
+                    while ((readLine = responseReader.readLine()) != null) {
+                        sb.append(readLine);
+                    }
+                    responseReader.close();
+                    cpuInfo = sb.toString().toLowerCase();
+                } catch (IOException ex) {
+                }
+
+
+
                 textView = (TextView) findViewById(R.id.tv_getdeviceid);
                 // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
                 textView.setText("\n 最终方法获取IMEI  \n" + DeviceIdUtil.getDeviceId(mActivity)
@@ -84,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                         + "\n 真实 ITelephonyUtil反Hook 获取DeviceId\n" + ITelephonyUtil.getDeviceIdLevel0(mActivity)
                         + "\n 真实 ITelephonyUtil反Hook 获取DeviceId level1 \n" + ITelephonyUtil.getDeviceIdLevel1(mActivity)
                         + "\n 自定义ServiceManager获取getDeviceId level2 \n" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
+                        +"\n "+cpuInfo
+                        +"\n "+ PropertiesGet.getString("ro.product.cpu.abi")
                 );
                 textView = (TextView) findViewById(R.id.tv_all);
 

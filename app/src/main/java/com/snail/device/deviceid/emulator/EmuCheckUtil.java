@@ -1,9 +1,13 @@
 package com.snail.device.deviceid.emulator;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.snail.device.deviceid.deviceid.DeviceIdUtil;
 import com.snail.device.deviceid.deviceid.IPhoneSubInfoUtil;
@@ -13,7 +17,6 @@ import com.snail.device.jni.PropertiesGet;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -28,24 +31,53 @@ public class EmuCheckUtil {
 
     public static boolean mayOnEmulator(Context context) {
 
-        mayOnEmulatorViaQEMU(context);
-        DeviceIdUtil.isEmulatorFromDeviceId(context);
-        isFakeEmulatorFromIMEI(context);
-        mayOnEmulatorViaBuild(context);
-        isEmulatorFromCpu();
-        isEmulatorFromQemuFeatures(context);
-
         return mayOnEmulatorViaQEMU(context)
-                || DeviceIdUtil.isEmulatorFromDeviceId(context)
-                || isFakeEmulatorFromIMEI(context)
-                || mayOnEmulatorViaBuild(context)
+                || isEmulatorViaBuild(context)
                 || isEmulatorFromCpu()
-                || isEmulatorFromQemuFeatures(context);
-
+                || isFakeEmulatorFromIMEI(context)
+                || isEmulatorFromDeviceId(context);
 
     }
 
-    private static final boolean mayOnEmulatorViaBuild(Context context) {
+    //只有获取的IMEI全部为000000才是模拟器，但是>6.0的某些国产rom 在未授权的情况下返回的是00000000000000，所以这个判断 只限定到<23，甚至这个条件将来会放弃
+    public static boolean isEmulatorFromDeviceId(Context context) {
+        return isAllZero(DeviceIdUtil.getDeviceId(context))
+                && EmuCheckUtil.checkPermissionGranted(context, "android.permission.READ_PHONE_STATE");
+    }
+
+    private static boolean isAllZero(@NonNull String content) {
+        if (TextUtils.isEmpty(content))//获取不到不能作为参考，可能因为权限拿不到
+            return false;
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) != '0') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkPermissionGranted(Context context, String permission) {
+
+        boolean result = true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                final PackageInfo info = context.getPackageManager().getPackageInfo(
+                        context.getPackageName(), 0);
+                int targetSdkVersion = info.applicationInfo.targetSdkVersion;
+                if (targetSdkVersion >= Build.VERSION_CODES.M) {
+                    result = context.checkSelfPermission(permission)
+                            == PackageManager.PERMISSION_GRANTED;
+                } else {
+                    result = PermissionChecker.checkSelfPermission(context, permission)
+                            == PermissionChecker.PERMISSION_GRANTED;
+                }
+            } catch (Exception e) {
+            }
+        }
+        return result;
+    }
+
+    public static boolean isEmulatorViaBuild(Context context) {
 
         if (!TextUtils.isEmpty(PropertiesGet.getString("ro.product.model"))
                 && PropertiesGet.getString("ro.product.model").toLowerCase().contains("sdk")) {
@@ -72,13 +104,14 @@ public class EmuCheckUtil {
     }
 
 
-    private static final boolean mayOnEmulatorViaQEMU(Context context) {
+    //  qemu模拟器特征
+    public static boolean mayOnEmulatorViaQEMU(Context context) {
         String qemu = PropertiesGet.getString("ro.kernel.qemu");
         return "1".equals(qemu);
     }
 
-    // 查杀比较严格
-    private static boolean isEmulatorFromCpu() {
+    // 查杀比较严格，放在最后，直接pass x86
+    public static boolean isEmulatorFromCpu() {
 
         String cpuInfo = "";
         try {
@@ -93,17 +126,22 @@ public class EmuCheckUtil {
             }
             responseReader.close();
             cpuInfo = sb.toString().toLowerCase();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
         }
         return TextUtils.isEmpty(cpuInfo) || ((cpuInfo.contains("intel") || cpuInfo.contains("amd")));
     }
 
 
-    //  判断是否存在作假，如果TelephonyManager获取非空，但是
-    private static boolean isFakeEmulatorFromIMEI(Context context) {
+    //  判断是否存在作假，如果TelephonyManager获取非空，但是底层获取为null，说明直接在上层Hook了
+    public static boolean isFakeEmulatorFromIMEI(Context context) {
 
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
+        String deviceId = null;
+        try {
+            TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+            deviceId = tm.getDeviceId();
+        } catch (Exception e) {
+        }
+
         String deviceId1 = IPhoneSubInfoUtil.getDeviceId(context);
         String deviceId2 = ITelephonyUtil.getDeviceId(context);
         return !TextUtils.isEmpty(deviceId)
@@ -111,48 +149,38 @@ public class EmuCheckUtil {
                 && TextUtils.isEmpty(deviceId2));
     }
 
-    private static boolean isEmulatorFromQemuFeatures(Context context) {
+
+    // 根据Qemu的一些特征信息判断
+    public static boolean isEmulatorFromQemuFeatures(Context context) {
+
         return checkPipes()
-                || checkQEmuDriverFile()
-                || CheckEmulatorFiles()
-                || CheckPhoneNumber(context);
+                || checkQEmuDriverFile();
     }
 
-    private static String[] known_pipes = {
+    public static String[] known_pipes = {
             "/dev/socket/qemud",
             "/dev/qemu_pipe"
     };
 
-    private static String[] known_qemu_drivers = {
+    public static String[] known_qemu_drivers = {
             "goldfish"
     };
 
-    private static String[] known_files = {
-            "/system/lib/libc_malloc_debug_qemu.so",
-            "/sys/qemu_trace",
-            "/system/bin/qemu-props"
-    };
+    //检测“/dev/socket/qemud”，“/dev/qemu_pipe”这两个通道
 
-    private static String[] known_numbers = {"15555215554", "15555215556",
-            "15555215558", "15555215560", "15555215562", "15555215564",
-            "15555215566", "15555215568", "15555215570", "15555215572",
-            "15555215574", "15555215576", "15555215578", "15555215580",
-            "15555215582", "15555215584",};
-
-    private static boolean checkPipes() {
+    public static boolean checkPipes() {
         for (int i = 0; i < known_pipes.length; i++) {
             String pipes = known_pipes[i];
             File qemu_socket = new File(pipes);
             if (qemu_socket.exists()) {
-                Log.v("Result:", "Find pipes!");
                 return true;
             }
         }
-        Log.i("Result:", "Not Find pipes!");
         return false;
     }
 
-    private static boolean checkQEmuDriverFile() {
+    // 读取文件内容，然后检查已知QEmu的驱动程序的列表
+    public static boolean checkQEmuDriverFile() {
         File driver_file = new File("/proc/tty/drivers");
         if (driver_file.exists() && driver_file.canRead()) {
             byte[] data = new byte[1024];  //(int)driver_file.length()
@@ -166,37 +194,8 @@ public class EmuCheckUtil {
             String driver_data = new String(data);
             for (String known_qemu_driver : known_qemu_drivers) {
                 if (driver_data.indexOf(known_qemu_driver) != -1) {
-                    Log.i("Result:", "Find know_qemu_drivers!");
                     return true;
                 }
-            }
-        }
-        Log.i("Result:", "Not Find known_qemu_drivers!");
-        return false;
-    }
-
-    //检测模拟器上特有的几个文件
-    public static boolean CheckEmulatorFiles() {
-        for (int i = 0; i < known_files.length; i++) {
-            String file_name = known_files[i];
-            File qemu_file = new File(file_name);
-            if (qemu_file.exists()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // 检测模拟器默认的电话号码
-    private static boolean CheckPhoneNumber(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context
-                .getSystemService(Context.TELEPHONY_SERVICE);
-
-        String phonenumber = telephonyManager.getLine1Number();
-
-        for (String number : known_numbers) {
-            if (number.equalsIgnoreCase(phonenumber)) {
-                return true;
             }
         }
         return false;
