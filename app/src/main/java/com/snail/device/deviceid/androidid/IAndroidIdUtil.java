@@ -8,7 +8,7 @@ import android.text.TextUtils;
  * androidid获取
  */
 
-public class IAndoidIdUtil {
+public class IAndroidIdUtil {
 
     public static String getAndroidId(Context context) {
         String androidId;

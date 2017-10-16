@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.IEmulatorCheck;
-import com.snail.device.deviceid.androidid.IAndoidIdUtil;
+import com.snail.device.deviceid.androidid.IAndroidIdUtil;
 import com.snail.device.deviceid.androidid.ISettingUtils;
 import com.snail.device.deviceid.deviceid.DeviceIdUtil;
 import com.snail.device.deviceid.deviceid.IPhoneSubInfoUtil;
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
                 textView.setText("\n 最终方法获取IMEI  \n" + DeviceIdUtil.getDeviceId(mActivity)
                         + "\n最终方法获取MAC地址 \n" + MacAddressUtils.getMacAddress(mActivity)
-                        + "\n最终方法获取AndroidID \n" + IAndoidIdUtil.getAndroidId(mActivity)
+                        + "\n最终方法获取AndroidID \n" + IAndroidIdUtil.getAndroidId(mActivity)
                         + "\n 是否模拟器  " + EmuCheckUtil.mayOnEmulator(mActivity)
                         + " \n\n可Hook系统API获取Deviceid\n" + ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId()
                         + "\n 真实 反Hook Proxy代理获取Deviceid \n" + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
@@ -146,17 +146,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private IEmulatorCheck mIEmulatorCheck;
     final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mIEmulatorCheck = IEmulatorCheck.Stub.asInterface(service);
-            if (mIEmulatorCheck != null) {
+            IEmulatorCheck IEmulatorCheck = com.android.internal.telephony.IEmulatorCheck.Stub.asInterface(service);
+            if (IEmulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + mIEmulatorCheck.isEmulator());
+                    textView.setText(" 是否模拟器 " + IEmulatorCheck.isEmulator());
                     unbindService(this);
-                    mIEmulatorCheck.kill();
+                    IEmulatorCheck.kill();
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this,"获取进程崩溃",Toast.LENGTH_SHORT).show();
                 }

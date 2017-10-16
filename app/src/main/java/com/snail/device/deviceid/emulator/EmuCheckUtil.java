@@ -9,16 +9,15 @@ import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.snail.device.deviceid.ShellAdbUtils;
 import com.snail.device.deviceid.deviceid.DeviceIdUtil;
 import com.snail.device.deviceid.deviceid.IPhoneSubInfoUtil;
 import com.snail.device.deviceid.deviceid.ITelephonyUtil;
 import com.snail.device.jni.PropertiesGet;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * Author: hzlishang
@@ -113,21 +112,7 @@ public class EmuCheckUtil {
     // 查杀比较严格，放在最后，直接pass x86
     public static boolean isEmulatorFromCpu() {
 
-        String cpuInfo = "";
-        try {
-            String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
-            ProcessBuilder cmd = new ProcessBuilder(args);
-            Process process = cmd.start();
-            StringBuffer sb = new StringBuffer();
-            String readLine = "";
-            BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
-            while ((readLine = responseReader.readLine()) != null) {
-                sb.append(readLine);
-            }
-            responseReader.close();
-            cpuInfo = sb.toString().toLowerCase();
-        } catch (Exception ex) {
-        }
+        String cpuInfo = ShellAdbUtils.execCommand("cat /proc/cpuinfo",false).successMsg;
         return TextUtils.isEmpty(cpuInfo) || ((cpuInfo.contains("intel") || cpuInfo.contains("amd")));
     }
 
