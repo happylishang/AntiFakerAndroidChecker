@@ -2,6 +2,7 @@ package com.snail.device;
 
 import android.app.Application;
 
+
 /**
  * Author: snail
  * Data: 2017/8/3 下午3:26
@@ -16,7 +17,7 @@ public class CrashHandlerApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication =this;
-        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler());
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(this));
     }
 
     public static Application getApplication(){

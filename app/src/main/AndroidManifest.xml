@@ -30,8 +30,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".jni.EmulatorCheckService"
-                 android:process=":EmulatorCheckService"/>
+
 
     </application>
 
