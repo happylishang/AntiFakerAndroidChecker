@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
                 textView = (TextView) findViewById(R.id.tv_getdeviceid);
                 // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
                 textView.setText("\n 最终方法获取IMEI  \n" + DeviceIdUtil.getDeviceId(mActivity)
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
                     textView.setText(" 是否模拟器 " + IEmulatorCheck.isEmulator());
                     unbindService(this);
-                    IEmulatorCheck.kill();
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this,"获取进程崩溃",Toast.LENGTH_SHORT).show();
                 }
