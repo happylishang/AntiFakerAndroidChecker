@@ -32,11 +32,7 @@ ARM与PC的X86在架构上有很大区别，ARM采用的哈弗架构将指令存
 	842c:       e1a0800f        mov     r8, pc
 	8430:       e248800c        sub     r8, r8, #12   // PC值=当前程序执行位置+8
 	8434:       e5885000        str     r5, [r8]
-	8438:       e354000a        cmp     r4, #10
-	843c:       aa000002        bge     844c <out>
-	8440:       e357000a        cmp     r7, #10
-	8444:       aa000000        bge     844c <out>
-	8448:       eafffff6        b       8428 <code>
+        ...
 	
 	0000844c <out>:
 	
@@ -56,14 +52,7 @@ ARM与PC的X86在架构上有很大区别，ARM采用的哈弗架构将指令存
             "\x00\x50\x98\xE5"
             "\x01\x40\x84\xE2"
             "\x0F\x80\xA0\xE1"
-            "\x0C\x80\x48\xE2"
-            "\x00\x50\x88\xE5"
-            "\x0A\x00\x54\xE3"
-            "\x02\x00\x00\xAA"
-            "\x0A\x00\x57\xE3"
-            "\x00\x00\x00\xAA"
-            "\xF6\xFF\xFF\xEA"
-            "\x04\x00\xA0\xE1"
+            ...
             "\xF0\x81\xBD\xE8";
 	
 	    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1, (off_t) 0);
