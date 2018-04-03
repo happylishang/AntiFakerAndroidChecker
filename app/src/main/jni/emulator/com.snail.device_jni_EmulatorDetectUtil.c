@@ -70,26 +70,26 @@ int detect() {
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
                       (off_t) 0);
     if (exec == (void *) -1) {
-        LOGI(" mmap faild ");
+     //   LOGI(" mmap faild ");
         int fd = fopen("/dev/zero", "w+");
         exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_SHARED, fd, (off_t) 0);
-        LOGI(" mmap zero %x %x %x", fd, exec, exec);
+     //   LOGI(" mmap zero %x %x %x", fd, exec, exec);
         if (exec == (void *) -1) {
             return 10;
         }
     }
     memcpy(exec, code, sizeof(code) + 1);
-    LOGI(" mmap sucess exec  %x", exec);
+     LOGI(" mmap sucess exec  %x", exec);
     asmcheck = (int *) exec;
     a= asmcheck();
-    LOGI("a= %d  ", a);
+   // LOGI("a= %d  ", a);
     return a;
 }
 
 JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 
         (JNIEnv *env, jobject jobject1) {
-    load(env);
+    //load(env);
     int ret = detect();
     LOGI("%d detect ", ret);
     return ret != 10;

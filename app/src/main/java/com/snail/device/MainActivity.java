@@ -12,7 +12,6 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ import com.snail.device.jni.PropertiesGet;
 import java.lang.reflect.Field;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends  Activity {
 
     private Activity mActivity;
 
@@ -123,19 +122,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private IEmulatorCheck mIEmulatorCheck;
     final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            mIEmulatorCheck = IEmulatorCheck.Stub.asInterface(service);
-            if (mIEmulatorCheck != null) {
+            IEmulatorCheck IEmulatorCheck = com.android.internal.telephony.IEmulatorCheck.Stub.asInterface(service);
+            if (IEmulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + mIEmulatorCheck.isEmulator());
+                    textView.setText(" 是否模拟器 " + IEmulatorCheck.isEmulator());
                     unbindService(this);
-                    mIEmulatorCheck.kill();
                 } catch (RemoteException e) {
-                    Toast.makeText(MainActivity.this,"获取进程崩溃",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -144,5 +141,4 @@ public class MainActivity extends AppCompatActivity {
         public void onServiceDisconnected(ComponentName name) {
         }
     };
-
 }
