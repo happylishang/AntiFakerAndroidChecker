@@ -24,7 +24,7 @@ int detect (){
             "mov %0,r0 \n"
              :"=r"(a)
     );
-    return 0;
+    return a;
 }
 // /Volumes/arm-x/bin/arm-none-linux-gnueabi-gcc detect_func.c -c
 // /Volumes/arm-x/bin/arm-none-linux-gnueabi-objdump detect_func.o -d
@@ -89,4 +89,4 @@ int detect (){
 //  70:	e12fff1e 	bx	lr
 
 
-
+//c参考文档  gcc命令 http://man.linuxde.net/gcc
