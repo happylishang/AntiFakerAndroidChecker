@@ -143,5 +143,3 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 //    8448:       e1a00004        mov     r0, r4
 //    844c:       e8bd81f0        pop     {r4, r5, r6, r7, r8, pc}
 
-
-
