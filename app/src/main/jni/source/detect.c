@@ -27,7 +27,8 @@ int detect (){
              :"=r"(a)
     );
 
-    return 0;
+
+   return a;
 }
 
 int main(){

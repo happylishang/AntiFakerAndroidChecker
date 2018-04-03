@@ -42,7 +42,7 @@ int b = -1;
 
 int detect() {
     char code[] =
-            "\xF0\x41\x2D\xE9"
+                    "\xF0\x41\x2D\xE9"
                     "\x00\x70\xA0\xE3"
                     "\x0F\x80\xA0\xE1"
                     "\x00\x40\xA0\xE3"

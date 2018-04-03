@@ -24,14 +24,14 @@ android {
         }
     }
 
-    splits {
-        abi {
-            enable true
-            reset()
-            include  'armeabi-v7a', 'armeabi' //select ABIs to build APKs for
-            universalApk true //generate an additional APK that contains all the ABIs
-        }
-    }
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include  'armeabi-v7a', 'armeabi' //select ABIs to build APKs for
+//            universalApk true //generate an additional APK that contains all the ABIs
+//        }
+//    }
 
 
     sourceSets {
