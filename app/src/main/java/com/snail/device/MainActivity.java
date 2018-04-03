@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +57,10 @@ public class MainActivity extends Activity {
             if (IEmulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + IEmulatorCheck.isEmulator());
+                    boolean ret = IEmulatorCheck.isEmulator();
+                    textView.setText(" 是否模拟器 " + ret);
                     unbindService(this);
+                    Log.e("CacheCheck ", "" + ret);
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
                 }
