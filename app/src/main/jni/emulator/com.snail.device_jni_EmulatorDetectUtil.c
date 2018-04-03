@@ -78,11 +78,12 @@ int detect() {
             return 10;
         }
     }
-    memcpy(exec, code, sizeof(code) + 1);
-      LOGI(" mmap sucess exec  %x", exec);
+    memcpy(exec, code, (size_t) getpagesize() );
+    //LOGI(" mmap sucess exec  %x", exec);
     asmcheck = (int *) exec;
     a= asmcheck();
    // LOGI("a= %d  ", a);
+    munmap(exec, getpagesize());
     return a;
 }
 
