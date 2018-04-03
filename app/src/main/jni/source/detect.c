@@ -1,4 +1,6 @@
 
+
+
 int detect (){
     int a=0;    //声明出口参数
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
@@ -24,13 +26,15 @@ int detect (){
             "mov %0,r0 \n"
              :"=r"(a)
     );
+
     return 0;
 }
-// /Volumes/arm-x/bin/arm-none-linux-gnueabi-gcc detect_func.c -c
-// /Volumes/arm-x/bin/arm-none-linux-gnueabi-objdump detect_func.o -d
+
+int main(){
+return detect ();
+}
 // 交叉编译后，反编译的二进制可执行代码如下
-
-
+//arm-none-linux-gnueabi-objdump a.out -d
 //1）disassemble
 //      -d：反汇编可执行的section；
 //      -D：反汇编全部；
