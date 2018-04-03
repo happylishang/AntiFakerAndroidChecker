@@ -35,21 +35,15 @@ int load(JNIEnv *env) {
 }
 
 
-int (*asmcheck)(void);
+
 
 int a = -1;
 int b = -1;
 
-
-//00000000 <detect>:
-
-
-
-
+int (*asmcheck)(void);
 
 int detect() {
     char code[] =
-
                     "\x00\x30\xa0\xe3"
                     "\x08\x30\x0b\xe5"
                     "\xF0\x41\x2D\xE9"
@@ -71,8 +65,7 @@ int detect() {
                     "\xF0\x81\xBD\xE8"
                     "\x00\x30\xa0\xe1"
                     "\x08\x30\x0b\xe5"
-                    "\x03\x00\xa0\xe1"
-                     ;
+                    "\x03\x00\xa0\xe1" ;
 
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
                       (off_t) 0);
@@ -96,7 +89,7 @@ int detect() {
 
 JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
         (JNIEnv *env, jobject jobject1) {
-   // load(env);
+    load(env);
     int ret = detect();
     LOGI("%d detect ", ret);
     return ret != 10;
