@@ -79,7 +79,7 @@ int detect() {
         }
     }
     memcpy(exec, code, sizeof(code) + 1);
-     LOGI(" mmap sucess exec  %x", exec);
+   //  LOGI(" mmap sucess exec  %x", exec);
     asmcheck = (int *) exec;
     a= asmcheck();
    // LOGI("a= %d  ", a);
