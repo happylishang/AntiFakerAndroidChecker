@@ -82,7 +82,7 @@ int detect() {
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
     LOGI(" start asmcheck " );
-    a= asmcheck();
+   // a= asmcheck();
     munmap(exec, getpagesize());
     return a;
 }
@@ -92,6 +92,7 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
         (JNIEnv *env, jobject jobject1) {
     //load(env);
     int ret = detect();
+     LOGI(" result  ret " );
     return ret != 10;
 }
 
