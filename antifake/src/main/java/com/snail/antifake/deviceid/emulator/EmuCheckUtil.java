@@ -39,8 +39,9 @@ public class EmuCheckUtil {
     }
 
     //只有获取的IMEI全部为000000才是模拟器，但是>6.0的某些国产rom 在未授权的情况下返回的是00000000000000，所以这个判断 只限定到<23，甚至这个条件将来会放弃
-    public static boolean isEmulatorFromDeviceId(Context context) {
-        return isAllZero(DeviceIdUtil.getDeviceId(context))
+   //    平板呢？
+    private static boolean isEmulatorFromDeviceId(Context context) {
+        return (isAllZero(DeviceIdUtil.getDeviceId(context)) || TextUtils.isEmpty(DeviceIdUtil.getDeviceId(context)))
                 && EmuCheckUtil.checkPermissionGranted(context, "android.permission.READ_PHONE_STATE");
     }
 
