@@ -26,8 +26,6 @@ int detect (){
             "mov %0,r0 \n"
              :"=r"(a)
     );
-
-
    return a;
 }
 

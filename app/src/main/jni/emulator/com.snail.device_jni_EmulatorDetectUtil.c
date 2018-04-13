@@ -42,48 +42,41 @@ int b = -1;
 
 int (*asmcheck)(void);
 
-int detect() {
-    char code[] =
-                    "\x00\x30\xa0\xe3"
-                    "\x08\x30\x0b\xe5"
-                    "\xF0\x41\x2D\xE9"
-                    "\x00\x70\xA0\xE3"
-                    "\x0F\x80\xA0\xE1"
-                    "\x00\x40\xA0\xE3"
-                    "\x01\x70\x87\xE2"
-                    "\x00\x50\x98\xE5"
-                    "\x01\x40\x84\xE2"
-                    "\x0F\x80\xA0\xE1"
-                    "\x0C\x80\x48\xE2"
-                    "\x00\x50\x88\xE5"
-                    "\x0A\x00\x54\xE3"
-                    "\x02\x00\x00\xAA"
-                    "\x0A\x00\x57\xE3"
-                    "\x00\x00\x00\xAA"
-                    "\xF6\xFF\xFF\xEA"
-                    "\x04\x00\xA0\xE1"
-                    "\xF0\x81\xBD\xE8"
-                    "\x00\x30\xa0\xe1"
-                    "\x08\x30\x0b\xe5"
-                    "\x03\x00\xa0\xe1" ;
-
-    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
-                      (off_t) 0);
-    if (exec == (void *) -1) {
-        int fd = fopen("/dev/zero", "w+");
-        exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_SHARED, fd, (off_t) 0);
-        if (exec == (void *) -1) {
-            return 10;
-        }
-    }
-    memcpy(exec, code, (size_t) getpagesize() );
-    //LOGI(" mmap sucess exec  %x", exec);
-    //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
-    asmcheck = (int *) exec;
-    a= asmcheck();
-    munmap(exec, getpagesize());
+int detectAsm (){
+    int a=0;    //声明出口参数
+    __asm __volatile ( //这段属于self-modifing-code 自修改代码
+    "push    {r4, r5, r6, r7, r8, lr} \n"
+            "mov r7,#0 \n"
+            "mov r8,pc \n"
+            "mov r4,#0 \n"
+            "add r7,#1 \n"
+            "ldr r5,[r8]\n"
+            "code%=:\n"
+            "add r4,#1\n"
+            "mov r8,pc\n"
+            "sub r8,#12\n"
+            "str r5,[r8]\n"
+            "cmp r4,#10\n"
+            "bge out%=\n"
+            "cmp r7,#10\n"
+            "bge out%=\n"
+            "b code%=\n"
+            "out%=:\n"
+            "mov r0,r4\n"
+            "pop     {r4, r5, r6, r7, r8, pc}\n"
+            "mov %0,r0 \n"
+             :"=r"(a)
+    );
     return a;
 }
+
+int detect() {
+
+     a=detectAsm();
+
+    return a;
+}
+
 
 JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 
