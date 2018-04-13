@@ -44,6 +44,9 @@ int (*asmcheck)(void);
 
 int detect() {
     char code[] =
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
                     "\x00\x30\xa0\xe3"
                     "\x08\x30\x0b\xe5"
                     "\xF0\x41\x2D\xE9"
@@ -65,7 +68,11 @@ int detect() {
                     "\xF0\x81\xBD\xE8"
                     "\x00\x30\xa0\xe1"
                     "\x08\x30\x0b\xe5"
-                    "\x03\x00\xa0\xe1" ;
+                    "\x03\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                                         ;
 
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
                       (off_t) 0);
@@ -78,10 +85,10 @@ int detect() {
     }
 
     memcpy(exec, code, (size_t) getpagesize() );
-    LOGI(" mmap sucess exec  %x", exec);
+   // LOGI(" mmap sucess exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
-    LOGI(" start asmcheck " );
+   // LOGI(" start asmcheck " );
     a= asmcheck();
     munmap(exec, getpagesize());
     return a;
@@ -93,7 +100,7 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
     //load(env);
     int ret = detect();
      LOGI(" result  ret " );
-    return ret != 10;
+    return ret == 1;
 }
 
 
@@ -109,8 +116,10 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 //   0:	e52db004 	push	{fp}		; (str fp, [sp, #-4]!)
 //   4:	e28db000 	add	fp, sp, #0
 //   8:	e24dd00c 	sub	sp, sp, #12
+
 //   c:	e3a03000 	mov	r3, #0
 //  10:	e50b3008 	str	r3, [fp, #-8]
+
 //  14:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
 //  18:	e3a07000 	mov	r7, #0
 //  1c:	e1a0800f 	mov	r8, pc
