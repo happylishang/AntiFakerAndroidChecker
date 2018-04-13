@@ -42,41 +42,51 @@ int b = -1;
 
 int (*asmcheck)(void);
 
-int detectAsm (){
-    int a=0;    //声明出口参数
-    __asm __volatile ( //这段属于self-modifing-code 自修改代码
-    "push    {r4, r5, r6, r7, r8, lr} \n"
-            "mov r7,#0 \n"
-            "mov r8,pc \n"
-            "mov r4,#0 \n"
-            "add r7,#1 \n"
-            "ldr r5,[r8]\n"
-            "code%=:\n"
-            "add r4,#1\n"
-            "mov r8,pc\n"
-            "sub r8,#12\n"
-            "str r5,[r8]\n"
-            "cmp r4,#10\n"
-            "bge out%=\n"
-            "cmp r7,#10\n"
-            "bge out%=\n"
-            "b code%=\n"
-            "out%=:\n"
-            "mov r0,r4\n"
-            "pop     {r4, r5, r6, r7, r8, pc}\n"
-            "mov %0,r0 \n"
-             :"=r"(a)
-    );
-    return a;
-}
+
+
+
+
+
 
 int detect() {
+    char code[] =
+                    "\xF0\x41\x2D\xE9"
+                    "\x00\x07\x4f\xf0"
+                    "\x00\x00\xf8\x46"
+                    "\x00\x04\x4f\xf0"
+                    "\x01\x07\x07\xf1"
+                    "\x00\x50\xd8\xf8"
+                    "\x01\x04\x04\xf1"
+                    "\x00\x00\xf8\x46"
+                    "\x0C\x08\xa8\xf1"
+                    "\x00\x50\xc8\xf8"
+                    "\x00\x00\x0A\x2c"
+                    "\x00\x00\x02\xda"
+                    "\x00\x00\x0A\x2f"
+                    "\x00\x00\x00\xda"
+                    "\x00\x00\xF3\xE7"
+                    "\x00\x00\x20\x46"
+                    "\xF0\x81\xBD\xE8"
+                    "\x00\x00\x00\x46"
+                    "\x00\x00\x70\x47";
 
-     a=detectAsm();
-
+    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
+                      (off_t) 0);
+    if (exec == (void *) -1) {
+        int fd = fopen("/dev/zero", "w+");
+        exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_SHARED, fd, (off_t) 0);
+        if (exec == (void *) -1) {
+            return 10;
+        }
+    }
+    memcpy(exec, code, (size_t) getpagesize() );
+     LOGI(" mmap sucess exec  %x", exec);
+    //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
+    asmcheck = (int *) exec;
+    a= asmcheck();
+    munmap(exec, getpagesize());
     return a;
 }
-
 
 JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 
