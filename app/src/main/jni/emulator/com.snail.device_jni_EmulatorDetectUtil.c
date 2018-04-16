@@ -44,11 +44,7 @@ int (*asmcheck)(void);
 
 int detect() {
     char code[] =
-                    "\x00\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1"
-                    "\x00\x30\xa0\xe3"
-                    "\x08\x30\x0b\xe5"
+
                     "\xF0\x41\x2D\xE9"
                     "\x00\x70\xA0\xE3"
                     "\x0F\x80\xA0\xE1"
@@ -65,14 +61,7 @@ int detect() {
                     "\x00\x00\x00\xAA"
                     "\xF6\xFF\xFF\xEA"
                     "\x04\x00\xA0\xE1"
-                    "\xF0\x81\xBD\xE8"
-                    "\x00\x30\xa0\xe1"
-                    "\x08\x30\x0b\xe5"
-                    "\x03\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1"
-                                         ;
+                    "\xF0\x81\xBD\xE8" ;
 
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_SHARED, -1,
                       (off_t) 0);
@@ -141,6 +130,7 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 //00000050 <out>:
 //  50:	e1a00004 	mov	r0, r4
 //  54:	e8bd81f0 	pop	{r4, r5, r6, r7, r8, pc}
+
 //  58:	e1a03000 	mov	r3, r0
 //  5c:	e50b3008 	str	r3, [fp, #-8]
 //  60:	e3a03000 	mov	r3, #0
