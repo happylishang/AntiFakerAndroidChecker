@@ -6,21 +6,21 @@ int detect (){
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
     "push    {r4, r5, r6, r7, r8, lr} \n"
             "mov r7,#0 \n"
-            "mov r8,pc \n"
             "mov r4,#0 \n"
+     "smc%=:"
             "add r7,#1 \n"
+            "adr r8,smc%=\n"
             "ldr r5,[r8]\n"
-            "code:\n"
+     "code%=:\n"
             "add r4,#1\n"
-            "mov r8,pc\n"
-            "sub r8,#12\n"
+            "adr r8,code%=\n"
             "str r5,[r8]\n"
             "cmp r4,#10\n"
-            "bge out\n"
+            "bge out%=\n"
             "cmp r7,#10\n"
-            "bge out\n"
-            "b code\n"
-            "out:\n"
+            "bge out%=\n"
+            "b code%=\n"
+     "out%=:\n"
             "mov r0,r4\n"
             "pop     {r4, r5, r6, r7, r8, pc}\n"
             "mov %0,r0 \n"
@@ -31,9 +31,7 @@ int detect (){
    return a;
 }
 
-int main(){
-return detect ();
-}
+
 // 交叉编译后，反编译的二进制可执行代码如下
 //arm-none-linux-gnueabi-objdump a.out -d
 //1）disassemble
