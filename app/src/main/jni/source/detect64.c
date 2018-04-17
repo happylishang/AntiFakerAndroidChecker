@@ -6,23 +6,17 @@ int detect (){
             "sub	    sp, sp, #0x30 \n"
             "stp    x29, x30, [sp, #0x20]\n"
 
-   "smc:\n"
-
+            "smc:\n"
             "mov x0,#0 \n"
             "ADR x1,smc\n"
-            "mov x0,#0xffffffff \n"
-            "and x1,x1,x0\n"
-            "ldr x3,[x1]\n"
+                    "and x1,x1,#0xffffffff\n"
             "mov x2,#0 \n"
-            "mov x0,#0 \n"
             "add x0,x0,#1 \n"
-
-
-    "code:\n"
+            "ldr x3,[x1]\n"
+            "code:\n"
             "add x2,x2,#1\n"
             "ADR x1,code\n"
-            "mov x0,#0xffffffff \n"
-            "and x1,x1,x0\n"
+                    "and x1,x1,#0xffffffff\n"
             "sub x1,x1,#12\n"
             "str x3,[x1]\n"
             "cmp x2,#10\n"
@@ -30,8 +24,7 @@ int detect (){
             "cmp x0,#10\n"
             "bge out\n"
             "b code\n"
-
-     "out:\n"
+            "out:\n"
             "mov x0,x2\n"
             "ldp    x29, x30, [sp, #0x20]  \n"
             "add    sp, sp, #0x30   \n"

@@ -49,7 +49,7 @@ int detectAsm (){
             "sub	    sp, sp, #0x30 \n"
             "stp    x29, x30, [sp, #0x20]\n"
             "smc%=:\n"
-            "mov r0,#0 \n"
+            "mov x0,#0 \n"
             "ADR x1,smc%=\n"
             "mov x2,#0 \n"
             "add x0,x0,#1 \n"
@@ -82,13 +82,15 @@ char code[] =
 		"\xfd\x7b\x02\xa9"	//stp	x29, x30, [sp,#32]
 		"\x00\x00\x80\xd2" 	//mov	x0, #0x0
 		"\xe1\xff\xff\x10" //	adr	x1, 10 <smc>
+		"\x21\x7c\x40\x92"  	       //and	x1, x1, #0xffffffff
 		"\x02\x00\x80\xd2" // mov	x2, #0x0                   	// #0
 		"\x00\x04\x00\x91"//	add	x0, x0, #0x1
-	 	"\x23\x00\x40\xf9"  //         	ldr	x3, [x1]
+	  	"\x23\x00\x40\xf9"  //         	ldr	x3, [x1]
 		"\x42\x04\x00\x91" //          24:	 	add	x2, x2, #0x1
 		"\xe1\xff\xff\x10" //          28:	 	adr	x1, 24 <code>
 		"\x21\x30\x00\xd1" //	sub	x1, x1, #0xc
-		"\x23\x00\x00\xf9"//	str	x3, [x1]
+		"\x21\x7c\x40\x92"  	       //and	x1, x1, #0xffffffff
+	 	"\x23\x00\x00\xf9"//	str	x3, [x1]
 		"\x5f\x28\x00\xf1" //      	cmp	x2, #0xa
 		"\x8a\x00\x00\x54"//           b.ge	48 <out>
 		"\x1f\x28\x00\xf1"  //          3c:	 	cmp	x0, #0xa
@@ -115,8 +117,8 @@ char code[] =
     LOGI(" mmap copy  exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
-   //  a= asmcheck();
-    a=detectAsm ();
+      a= asmcheck();
+   // a=detectAsm ();
     munmap(exec, getpagesize());
     return a;
 }
