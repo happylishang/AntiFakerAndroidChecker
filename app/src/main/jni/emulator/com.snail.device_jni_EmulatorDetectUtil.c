@@ -47,7 +47,7 @@ int (*asmcheck)(void);
 
 
 
-int detect1 (){
+int detectAsm (){
     int a=0;    //声明出口参数
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
 
@@ -82,12 +82,47 @@ int detect1 (){
 }
 
 int detect() {
+char code[] =
+		"\xff\xc3\x00\xd1" 	//\xd1\x00\xc3\xff 	sub	sp, sp, #0x30
+		"\xfd\x7b\x02\xa9"	//stp	x29, x30, [sp,#32]
+		"\x00\x00\x80\xd2" 	//mov	x0, #0x0
+		"\xe1\xff\xff\x10" //	adr	x1, 10 <smc>
+		"\x02\x00\x80\xd2" // mov	x2, #0x0                   	// #0
+		"\x00\x04\x00\x91"//	add	x0, x0, #0x1
+		"\x23\x00\x40\xf9"  //         	ldr	x3, [x1]
+		"\x42\x04\x00\x91" //          24:	 	add	x2, x2, #0x1
+		"\xe1\xff\xff\x10" //          28:	 	adr	x1, 24 <code>
+		"\x21\x30\x00\xd1" //	sub	x1, x1, #0xc
+		"\x23\x00\x00\xf9"//	str	x3, [x1]
+		"\x5f\x28\x00\xf1" //      	cmp	x2, #0xa
+		"\x8a\x00\x00\x54"//           b.ge	48 <out>
+		"\x1f\x28\x00\xf1"  //          3c:	 	cmp	x0, #0xa
+		"\x4a\x00\x00\x54"//          40:	 	b.ge	48 <out>
+		"\xf8\xff\xff\x17"//          44:	 	b	24 <code>
+		"\xe0\x03\x02\xaa"//        48:	 	mov	x0, x2
+		"\xfd\x7b\x42\xa9"//        4c:	 	ldp	x29, x30, [sp,#32]
+		"\xff\xc3\x00\x91"//        50:	 	add	sp, sp, #0x30
+		;
 
+    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
+                      (off_t) 0);
+    if (exec == (void *) -1) {
+        int fd = fopen("/dev/zero", "w+");
+        exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_PRIVATE, fd, (off_t) 0);
+        if (exec == (void *) -1) {
+            return 10;
+        }
+    }
 
-    a =detect1() ;
+    memcpy(exec, code, (size_t) getpagesize() );
+     LOGI(" mmap sucess exec  %x", exec);
+    //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
+    asmcheck = (int *) exec;
+     LOGI(" start asmcheck " );
+    a= asmcheck();
+    munmap(exec, getpagesize());
     return a;
 }
-
 
 
 
