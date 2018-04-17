@@ -1,6 +1,6 @@
 
 
-
+//是否可以用r0-r3 这样不用保存
 int detect (){
     int a=0;    //声明出口参数
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
