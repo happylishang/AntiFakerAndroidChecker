@@ -42,11 +42,6 @@ int b = -1;
 
 int (*asmcheck)(void);
 
-
-
-
-
-
 int detectAsm (){
     int a=0;    //声明出口参数
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
@@ -54,7 +49,7 @@ int detectAsm (){
             "sub	    sp, sp, #0x30 \n"
             "stp    x29, x30, [sp, #0x20]\n"
             "smc%=:\n"
-            "mov x0,#0 \n"
+            "mov r0,#0 \n"
             "ADR x1,smc%=\n"
             "mov x2,#0 \n"
             "add x0,x0,#1 \n"
@@ -63,7 +58,7 @@ int detectAsm (){
             "add x2,x2,#1\n"
             "ADR x1,code%=\n"
             "sub x1,x1,#12\n"
-            "str x3,[x1]\n"
+             "str x3,[x1]\n"
             "cmp x2,#10\n"
             "bge out%=\n"
             "cmp x0,#10\n"
@@ -120,7 +115,8 @@ char code[] =
     LOGI(" mmap copy  exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
-  //  a= asmcheck();
+   //  a= asmcheck();
+    a=detectAsm ();
     munmap(exec, getpagesize());
     return a;
 }
