@@ -43,25 +43,24 @@ int b = -1;
 int (*asmcheck)(void);
 
 int detect() {
-    char code[] =
 
-                    "\xF0\x41\x2D\xE9"
-                    "\x00\x70\xA0\xE3"
-                    "\x00\x40\xA0\xE3"
-                    "\x01\x70\x87\xE2"
-                    "\x0c\x80\x4f\xe2"
-                    "\x00\x50\x98\xE5"
-                    "\x01\x40\x84\xE2"
-                    "\x0c\x80\x4f\xe2"
-                    "\x00\x50\x88\xE5"
-                    "\x0A\x00\x54\xE3"
+
+      char code[] =
+                    "\x04\xe0\x2d\xE5"
+                    "\x00\x20\xA0\xE3"
+                    "\x00\x00\xA0\xE3"
+                    "\x01\x20\x82\xE2"
+                    "\x0c\x30\x4f\xe2"
+                    "\x00\x10\x93\xE5"
+                    "\x01\x00\x80\xE2"
+                    "\x0c\x30\x4f\xe2"
+                    "\x00\x10\x83\xE5"
+                    "\x0A\x00\x50\xE3"
                     "\x02\x00\x00\xAA"
-                    "\x0A\x00\x57\xE3"
+                    "\x0A\x00\x52\xE3"
                     "\x00\x00\x00\xAA"
                     "\xf7\xff\xff\xea"
-                    "\x04\x00\xA0\xE1"
-                    "\xF0\x81\xBD\xE8" ;
-
+                    "\x04\xf0\x9d\xE4";
 
 
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
