@@ -50,6 +50,7 @@ return detect ();
 //        8:	e24dd00c 	sub	sp, sp, #12
 //        c:	e3a03000 	mov	r3, #0
 //        10:	e50b3008 	str	r3, [fp, #-8]
+
 //        14:	e92d41f0 	push	{r4, r5, r6, r7, r8, lr}
 //        18:	e3a07000 	mov	r7, #0
 //        1c:	e1a0800f 	mov	r8, pc
