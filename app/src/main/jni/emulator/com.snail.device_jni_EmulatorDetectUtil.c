@@ -50,29 +50,29 @@ int detect1 (){
             "sub	    sp, sp, #0x30 \n"
             "stp    x29, x30, [sp, #0x20]\n"
 
-            "smc:\n"
+            "smc%=:\n"
 
             "mov x0,#0 \n"
-            "ADR x1,smc\n"
+            "ADR x1,smc%=\n"
             "mov x2,#0 \n"
             "add x0,x0,#1 \n"
             "ldr x3,[x1]\n"
 
-            "code:\n"
+            "code%=:\n"
 
             "add x2,x2,#1\n"
-            "ADR x1,code\n"
+            "ADR x1,code%=\n"
             "sub x1,x1,#12\n"
-            "str x3,[x1]\n"
+       //     "str x3,[x1]\n"
 
             "cmp x2,#10\n"
-            "bge out\n"
+            "bge out%=\n"
 
             "cmp x0,#10\n"
-            "bge out\n"
-            "b code\n"
+            "bge out%=\n"
+            "b code%=\n"
 
-            "out:\n"
+            "out%=:\n"
 
             "mov x0,x2\n"
             "ldp    x29, x30, [sp, #0x20]  \n"
@@ -90,28 +90,7 @@ int detect() {
 
 char code[] =
 
-"\x00\x00\x80\xd2" 	//mov	x0, #0x0
-
-;
-
-    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
-                      (off_t) 0);
-    if (exec == (void *) -1) {
-        int fd = fopen("/dev/zero", "w+");
-        exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_PRIVATE, fd, (off_t) 0);
-        if (exec == (void *) -1) {
-            return 10;
-        }
-    }
-
-    memcpy(exec, code, (size_t) getpagesize() );
-     LOGI(" mmap sucess exec  %x", exec);
-    //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
-    asmcheck = (int *) exec;
-     LOGI(" start asmcheck " );
-    //a= asmcheck();
-    munmap(exec, getpagesize());
-    detect1() ;
+    a =detect1() ;
     return a;
 }
 
