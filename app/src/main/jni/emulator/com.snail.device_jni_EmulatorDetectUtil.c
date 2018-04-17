@@ -88,7 +88,7 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
         (JNIEnv *env, jobject jobject1) {
     //load(env);
     int ret = detect();
-     LOGI(" result  ret " );
+     LOGI(" result  %d   " ,ret );
     return ret == 1;
 }
 
