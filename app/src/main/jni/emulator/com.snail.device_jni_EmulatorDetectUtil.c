@@ -47,6 +47,8 @@ int detect() {
 
       char code[] =
                     "\x04\xe0\x2d\xE5"
+                      "\x00\x00\xa0\xe1"
+
                     "\x00\x20\xA0\xE3"
                     "\x00\x00\xA0\xE3"
                     "\x01\x20\x82\xE2"
@@ -79,6 +81,8 @@ int detect() {
 
     memcpy(exec, code, (size_t) getpagesize() );
      LOGI(" mmap sucess exec  %x", exec);
+     LOGI("...");
+     LOGI("...");
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
      //最后发现是积极流水的问题，还未等到及时返回，就去加载随机地址的指令随机出错，哈哈哈哈哈哈哈哈
      //32位的也会有这个问题，为甚
