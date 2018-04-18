@@ -60,7 +60,11 @@ int detect() {
                     "\x0A\x00\x52\xE3"
                     "\x00\x00\x00\xAA"
                     "\xf7\xff\xff\xea"
-                    "\x04\xf0\x9d\xE4";
+                    "\x04\xf0\x9d\xE4"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1";
 
 
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
@@ -76,8 +80,7 @@ int detect() {
     memcpy(exec, code, (size_t) getpagesize() );
      LOGI(" mmap sucess exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
-     LOGI(" ... " );
-     LOGI(" ... " );
+
     asmcheck = (int *) exec;
     a= asmcheck();
 
