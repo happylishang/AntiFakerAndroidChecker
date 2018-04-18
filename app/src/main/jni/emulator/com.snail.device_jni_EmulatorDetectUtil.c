@@ -47,22 +47,22 @@ int detectAsm (){
     __asm __volatile ( //这段属于self-modifing-code 自修改代码
             "mov x2,#0 \n"
             "mov x0,#0 \n"
-     "smc%=:"
-            "add x2,#1 \n"
-            "adr x3,smc%=\n"
+     "smc:"
+            "add x2,x2,#1 \n"
+            "adr x3,smc\n"
             "ldr x1,[x3]\n"
-     "code%=:\n"
-            "add x0,#1\n"
-            "adr x3,code%=\n"
+     "code:\n"
+            "add x0,x0,#1\n"
+            "adr x3,code\n"
             "str x1,[x3]\n"
             "cmp x0,#10\n"
-            "bge out%=\n"
+            "bge out\n"
             "cmp x2,#10\n"
-            "bge out%=\n"
-            "b code%=\n"
-     "out%=:\n"
+            "bge out\n"
+            "b code\n"
+     "out:\n"
               "ldp    x29, x30, [sp, #0x20]  \n"
-               "add    sp, sp, #0x30   \n"
+              "add    sp, sp, #0x30   \n"
              "mov %0,x0 \n"
                 :"=r"(a)
     );
@@ -71,27 +71,25 @@ int detectAsm (){
    return a;
 }
 
+
+
 int detect() {
 char code[] =
-		"\xff\xc3\x00\xd1" 	//\xd1\x00\xc3\xff 	sub	sp, sp, #0x30
-		"\xfd\x7b\x02\xa9"	//stp	x29, x30, [sp,#32]
-		"\x00\x00\x80\xd2" 	//mov	x0, #0x0
-		"\xe1\xff\xff\x10" //	adr	x1, 10 <smc>
-		"\x21\x7c\x40\x92"  	       //and	x1, x1, #0xffffffff
-		"\x02\x00\x80\xd2" // mov	x2, #0x0                   	// #0
+		"\xff\xc3\x00\xd1"
+		"\xfd\x7b\x02\xa9"
+		"\x02\x00\x80\xd2"
+		"\x00\x00\x80\xd2"
+		"\x42\x04\x00\x91"
+		"\xe3\xff\xff\x10"
+		"\x61\x00\x40\xf9"
 		"\x00\x04\x00\x91"//	add	x0, x0, #0x1
-	  	"\x23\x00\x40\xf9"  //         	ldr	x3, [x1]
-		"\x42\x04\x00\x91" //          24:	 	add	x2, x2, #0x1
-		"\xe1\xff\xff\x10" //          28:	 	adr	x1, 24 <code>
-		"\x21\x30\x00\xd1" //	sub	x1, x1, #0xc
-		"\x21\x7c\x40\x92"  	       //and	x1, x1, #0xffffffff
-	 	"\x23\x00\x00\xf9"//	str	x3, [x1]
-		"\x5f\x28\x00\xf1" //      	cmp	x2, #0xa
+		"\xe3\xff\xff\x10"
+	 	"\x61\x00\x00\xf9"//	str	x3, [x1]
+		"\x1f\x28\x00\xf1" //      	cmp	x2, #0xa
 		"\x8a\x00\x00\x54"//           b.ge	48 <out>
-		"\x1f\x28\x00\xf1"  //          3c:	 	cmp	x0, #0xa
+		"\x5f\x28\x00\xf1"  //          3c:	 	cmp	x0, #0xa
 		"\x4a\x00\x00\x54"//          40:	 	b.ge	48 <out>
-		"\xf8\xff\xff\x17"//          44:	 	b	24 <code>
-		"\xe0\x03\x02\xaa"//        48:	 	mov	x0, x2
+		"\xf9\xff\xff\x17"//          44:	 	b	24 <code>
 		"\xfd\x7b\x42\xa9"//        4c:	 	ldp	x29, x30, [sp,#32]
 		"\xff\xc3\x00\x91"//        50:	 	add	sp, sp, #0x30
 		;
