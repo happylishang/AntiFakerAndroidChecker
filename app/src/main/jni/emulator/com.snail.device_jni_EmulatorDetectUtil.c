@@ -80,7 +80,7 @@ int detect() {
     memcpy(exec, code, (size_t) getpagesize() );
      LOGI(" mmap sucess exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
-
+     //最后发现是积极流水的问题，还未等到及时返回，就去加载随机地址的指令随机出错，哈哈哈哈哈哈哈哈
     asmcheck = (int *) exec;
     a= asmcheck();
 
