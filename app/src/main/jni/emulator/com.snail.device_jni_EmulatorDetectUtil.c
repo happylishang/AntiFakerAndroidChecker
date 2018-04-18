@@ -93,6 +93,10 @@ char code[] =
  		"\xfd\x7b\x42\xa9"//	ldp	x29, x30, [sp,#32]
 	 	"\xff\xc3\x00\x91"//	add	sp, sp, #0x30
 	 	"\xc0\x03\x5f\xd6" //	ret
+	 	"\x00\x00\xa0\xe1" //	nop
+	 	"\x00\x00\xa0\xe1" //	nop
+	 	"\x00\x00\xa0\xe1" //	nop
+	 	"\x00\x00\xa0\xe1" //	nop
 		;
 
    LOGI(" start  detect");

@@ -22,6 +22,8 @@ int detectAsm (){
      "out:\n"
               "ldp    x29, x30, [sp, #0x20]  \n"
               "add    sp, sp, #0x30   \n"
+                  "nop \n"
+                      "nop \n"
              "mov %0,x0 \n"
                 :"=r"(a)
     );
