@@ -47,8 +47,6 @@ int detect() {
 
       char code[] =
                     "\x04\xe0\x2d\xE5"
-                      "\x00\x00\xa0\xe1"
-
                     "\x00\x20\xA0\xE3"
                     "\x00\x00\xA0\xE3"
                     "\x01\x20\x82\xE2"
