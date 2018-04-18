@@ -75,23 +75,24 @@ int detectAsm (){
 
 int detect() {
 char code[] =
-		"\xff\xc3\x00\xd1"
-		"\xfd\x7b\x02\xa9"
-		"\x02\x00\x80\xd2"
-		"\x00\x00\x80\xd2"
-		"\x42\x04\x00\x91"
-		"\xe3\xff\xff\x10"
-		"\x61\x00\x40\xf9"
-		"\x00\x04\x00\x91"//	add	x0, x0, #0x1
-		"\xe3\xff\xff\x10"
-	 	"\x61\x00\x00\xf9"//	str	x3, [x1]
-		"\x1f\x28\x00\xf1" //      	cmp	x2, #0xa
-		"\x8a\x00\x00\x54"//           b.ge	48 <out>
-		"\x5f\x28\x00\xf1"  //          3c:	 	cmp	x0, #0xa
-		"\x4a\x00\x00\x54"//          40:	 	b.ge	48 <out>
-		"\xf9\xff\xff\x17"//          44:	 	b	24 <code>
-		"\xfd\x7b\x42\xa9"//        4c:	 	ldp	x29, x30, [sp,#32]
-		"\xff\xc3\x00\x91"//        50:	 	add	sp, sp, #0x30
+	 	"\xff\xc3\x00\xd1"//	sub	sp, sp, #0x30
+	 	"\xfd\x7b\x02\xa9"//	x29, x30, [sp,#32]
+	 	"\x02\x00\x80\xd2"//	x2, #0x0
+	 	"\x00\x00\x80\xd2"//	mov	x0, #0x0
+	 	"\x42\x04\x00\x91"//	add	x2, x2, #0x1
+	 	"\xe3\xff\xff\x10"//	adr	x3, 18 <smc>
+	 	"\x61\x00\x40\xf9"//	ldr	x1, [x3]
+	 	"\x00\x04\x00\x91"//	add	x0, x0, #0x1
+	 	"\xe3\xff\xff\x10"//	adr	x3, 24 <code>
+	  	"\x61\x00\x00\xf9"//	str	x1, [x3]
+	 	"\x1f\x28\x00\xf1" //	cmp	x0, #0xa
+	 	"\x8a\x00\x00\x54"//	b.ge	44 <out>
+	 	"\x5f\x28\x00\xf1"  //	cmp	x2, #0xa
+	 	"\x4a\x00\x00\x54"//	b.ge	44 <out>
+	 	"\xf9\xff\xff\x17"//	b	24 <code>
+ 		"\xfd\x7b\x42\xa9"//	ldp	x29, x30, [sp,#32]
+	 	"\xff\xc3\x00\x91"//	add	sp, sp, #0x30
+	 	"\xc0\x03\x5f\xd6" //	ret
 		;
 
    LOGI(" start  detect");
