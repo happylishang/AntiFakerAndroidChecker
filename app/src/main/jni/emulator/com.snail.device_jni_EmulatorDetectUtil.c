@@ -56,7 +56,7 @@ int (*asmcheck)(void);
 JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 
         (JNIEnv *env, jobject jobject1) {
-   //load(env);
+   //load(env); //无感应崩溃
 
       char code[] =
                     "\x04\xe0\x2d\xE5"
