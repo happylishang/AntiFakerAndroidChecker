@@ -37,13 +37,26 @@ int load(JNIEnv *env) {
 
 
 
-int a = -1;
-int b = -1;
-
+void clearcache(char* begin, char *end)
+{
+	const int syscall = 0xf0002;
+	__asm __volatile (
+		"mov	 r0, %0\n"
+		"mov	 r1, %1\n"
+		"mov	 r7, %2\n"
+		"mov     r2, #0x0\n"
+		"svc     0x00000000\n"
+		:
+		:	"r" (begin), "r" (end), "r" (syscall)
+		:	"r0", "r1", "r7"
+		);
+}
 int (*asmcheck)(void);
 
-int detect() {
+JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
 
+        (JNIEnv *env, jobject jobject1) {
+   //load(env);
 
       char code[] =
                     "\x04\xe0\x2d\xE5"
@@ -64,37 +77,38 @@ int detect() {
                     "\x00\x00\xa0\xe1"
                     "\x00\x00\xa0\xe1"
                     "\x00\x00\xa0\xe1"
-                    "\x00\x00\xa0\xe1";
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                    "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1"
+                     "\x00\x00\xa0\xe1";
 
 
-    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
+    void *exec = mmap(NULL, 4096, PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
                       (off_t) 0);
-    if (exec == (void *) -1) {
-        int fd = fopen("/dev/zero", "w+");
-        exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_PRIVATE, fd, (off_t) 0);
-        if (exec == (void *) -1) {
-            return 10;
-        }
-    }
-
-    memcpy(exec, code, (size_t) getpagesize() );
-     LOGI(" mmap sucess exec  %x", exec);
-     LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");
+    memcpy(exec, code,  4096 );
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
      //最后发现是积极流水的问题，还未等到及时返回，就去加载随机地址的指令随机出错，哈哈哈哈哈哈哈哈
      //32位的也会有这个问题，为甚
+    clearcache(exec,exec+4096);
+     //for(int i=0;i<4096;i++){
+      //   LOGI("%x",*(((int *)exec)+i));
+     //  }
+    //LOGI(" mmap sucess exec  %x", exec);
+    LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");
     asmcheck = (int *) exec;
-    a= asmcheck();
-
-    munmap(exec, getpagesize());
-    return a;
-}
-
-JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
-
-        (JNIEnv *env, jobject jobject1) {
-    //load(env);
-    int ret = detect();
-     LOGI(" result  %d   " ,ret );
+    int ret=-1;
+    ret= asmcheck();
+    LOGI(" result  %d   " ,ret );
+    munmap(exec,4096);
     return ret == 1;
 }
+
