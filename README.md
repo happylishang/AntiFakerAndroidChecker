@@ -271,3 +271,6 @@ APP开发中常需要获取Android的Deviceid，以应对防刷，目前常用�
 参考这部分源码，自己实现.so库即可，这样既可以避免被Java层Hook。
 
 [Github连接 CacheEmulatorChecker](https://github.com/happylishang/CacheEmulatorChecker)     
+
+
+#### 8.0之后，序列号只能通过adb来获取
