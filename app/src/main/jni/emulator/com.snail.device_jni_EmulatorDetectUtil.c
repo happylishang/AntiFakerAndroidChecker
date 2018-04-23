@@ -92,14 +92,14 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
                      "\x00\x00\xa0\xe1";
 
 
-    void *exec = mmap(NULL, 4096, PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
+    void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
                       (off_t) 0);
-    memcpy(exec, code,  4096 );
+    memcpy(exec, code,  (size_t) getpagesize() );
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
      //最后发现是积极流水的问题，还未等到及时返回，就去加载随机地址的指令随机出错，哈哈哈哈哈哈哈哈
      //32位的也会有这个问题，为甚
-    clearcache(exec,exec+4096);
-     //for(int i=0;i<4096;i++){
+   // clearcache(exec,exec+(size_t) getpagesize());
+     //for(int i=0;i<(size_t) getpagesize();i++){
       //   LOGI("%x",*(((int *)exec)+i));
      //  }
     //LOGI(" mmap sucess exec  %x", exec);
@@ -108,7 +108,7 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
     int ret=-1;
     ret= asmcheck();
     LOGI(" result  %d   " ,ret );
-    munmap(exec,4096);
+    munmap(exec,(size_t) getpagesize());
     return ret == 1;
 }
 
