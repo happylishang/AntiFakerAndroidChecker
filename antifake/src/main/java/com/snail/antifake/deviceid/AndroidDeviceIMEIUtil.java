@@ -3,7 +3,9 @@ package com.snail.antifake.deviceid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
@@ -42,11 +44,26 @@ public class AndroidDeviceIMEIUtil {
         return MacAddressUtils.getMacAddress(context);
     }
 
+
+    //@Deprecated
+    // IMPORTANT: This field should be initialized via a function call to
+    // prevent its value being inlined in the app during compilation because
+    // we will later set it to the value based on the app's target SDK.
+    //  public static final String SERIAL = getString("no.such.thing");
+
+
     //    序列号	 重新烧录flash
     public static String getSerialno() {
-
-        return PropertiesGet.getString("ro.serialno");
+        String serialno = PropertiesGet.getString("ro.serialno");
+        if (TextUtils.isEmpty(serialno) ) {
+            serialno = ShellAdbUtils.execCommand("cat /sys/class/android_usb/android0/iSerial", false).successMsg;
+        }
+        if (TextUtils.isEmpty(serialno)) {
+            serialno = Build.SERIAL;
+        }
+        return serialno;
     }
+
 
     public static String getManufacturer() {
         return PropertiesGet.getString("ro.product.manufacturer");

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.IEmulatorCheck;
+import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
 import com.snail.antifake.deviceid.androidid.ISettingUtils;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
@@ -73,21 +74,21 @@ public class MainActivity extends AppCompatActivity {
 
                 TextView textView = null;
 
-                String cpuInfo = "";
-                try {
-                    String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
-                    ProcessBuilder cmd = new ProcessBuilder(args);
-                    Process process = cmd.start();
-                    StringBuffer sb = new StringBuffer();
-                    String readLine = "";
-                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
-                    while ((readLine = responseReader.readLine()) != null) {
-                        sb.append(readLine);
-                    }
-                    responseReader.close();
-                    cpuInfo = sb.toString().toLowerCase();
-                } catch (IOException ex) {
-                }
+//                String cpuInfo = "";
+//                try {
+//                    String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
+//                    ProcessBuilder cmd = new ProcessBuilder(args);
+//                    Process process = cmd.start();
+//                    StringBuffer sb = new StringBuffer();
+//                    String readLine = "";
+//                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
+//                    while ((readLine = responseReader.readLine()) != null) {
+//                        sb.append(readLine);
+//                    }
+//                    responseReader.close();
+//                    cpuInfo = sb.toString().toLowerCase();
+//                } catch (IOException ex) {
+//                }
 
 
                 textView = (TextView) findViewById(R.id.tv_getdeviceid);
@@ -103,26 +104,27 @@ public class MainActivity extends AppCompatActivity {
                         + "\n 真实 ITelephonyUtil反Hook 获取DeviceId\n" + ITelephonyUtil.getDeviceIdLevel0(mActivity)
                         + "\n 真实 ITelephonyUtil反Hook 获取DeviceId level1 \n" + ITelephonyUtil.getDeviceIdLevel1(mActivity)
                         + "\n 自定义ServiceManager获取getDeviceId level2 \n" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
-                        +"\n "+cpuInfo
+                        +"\n "+EmuCheckUtil.getCpuInfo()
                         +"\n "+ PropertiesGet.getString("ro.product.cpu.abi")
                 );
                 textView = (TextView) findViewById(R.id.tv_all);
 
-                try {
-                    Field seri = Build.class.getDeclaredField("SERIAL");
-                    seri.setAccessible(true);
-                    try {
-                        seri.set(null, "" + System.currentTimeMillis());
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                } catch (NoSuchFieldException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    Field seri = Build.class.getDeclaredField("SERIAL");
+//                    seri.setAccessible(true);
+//                    try {
+//                        seri.set(null, "" + System.currentTimeMillis());
+//                    } catch (IllegalAccessException e) {
+//                        e.printStackTrace();
+//                    }
+//                } catch (NoSuchFieldException e) {
+//                    e.printStackTrace();
+//                }
 
                 textView.setText("\n系统API反射获取序列号\n" + SysAPIUtil.getSerialNumber(mActivity)
                         + "\n系统API反射获取序列号\n" + SysAPIUtil.getJavaSerialNumber(mActivity)
                         + "\n 直接通过 Build Serial " + Build.SERIAL
+                        + "\n 通过ADB Build Serial " + AndroidDeviceIMEIUtil.getSerialno()
                         + "\n 直接native获取  Serial " + PropertiesGet.getString("ro.serialno")
                         + "\n 通过系统API获取MAC地址 \n" + SysAPIUtil.getMacAddress(mActivity)
                         + "\n Iwifmanager 获取mac level 0 \n" + IWifiManagerUtil.getMacAddress(mActivity)
