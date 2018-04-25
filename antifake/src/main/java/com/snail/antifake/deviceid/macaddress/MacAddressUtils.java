@@ -1,6 +1,10 @@
 package com.snail.antifake.deviceid.macaddress;
 
+import android.app.Application;
 import android.content.Context;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.text.TextUtils;
 
 import com.snail.antifake.deviceid.ShellAdbUtils;
@@ -9,6 +13,7 @@ import java.lang.reflect.Method;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Author: snail
@@ -91,5 +96,23 @@ public class MacAddressUtils {
         return "";
     }
 
+    public static String getConnectedWifiMacAddress(Application context) {
+        String connectedWifiMacAddress = null;
+        WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        List<ScanResult> wifiList;
 
+        if (wifiManager != null) {
+            wifiList = wifiManager.getScanResults();
+            WifiInfo info = wifiManager.getConnectionInfo();
+            if (wifiList != null && info != null) {
+                for (int i = 0; i < wifiList.size(); i++) {
+                    ScanResult result = wifiList.get(i);
+                    if (info.getBSSID().equals(result.BSSID)) {
+                        connectedWifiMacAddress = result.BSSID;
+                    }
+                }
+            }
+        }
+        return connectedWifiMacAddress;
+    }
 }

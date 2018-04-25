@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 
 
+
 public class MainActivity extends AppCompatActivity {
 
     private Activity mActivity;
@@ -106,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         + "\n 自定义ServiceManager获取getDeviceId level2 \n" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
                         +"\n "+EmuCheckUtil.getCpuInfo()
                         +"\n "+ PropertiesGet.getString("ro.product.cpu.abi")
+                        +"\n 获取链接的路由器地址"+MacAddressUtils.getConnectedWifiMacAddress(getApplication())
                 );
                 textView = (TextView) findViewById(R.id.tv_all);
 
