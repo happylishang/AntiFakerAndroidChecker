@@ -55,7 +55,7 @@ public class AndroidDeviceIMEIUtil {
     //    序列号	 重新烧录flash
     public static String getSerialno() {
         String serialno = PropertiesGet.getString("ro.serialno");
-        if (TextUtils.isEmpty(serialno) ) {
+        if (TextUtils.isEmpty(serialno)) {
             serialno = ShellAdbUtils.execCommand("cat /sys/class/android_usb/android0/iSerial", false).successMsg;
         }
         if (TextUtils.isEmpty(serialno)) {
@@ -144,4 +144,8 @@ public class AndroidDeviceIMEIUtil {
         return sBatteryChangeReceiver != null ? sBatteryChangeReceiver.getCurrentLevel() : -1;
     }
 
+    public static void getMac(IpScanner.OnScanListener listener) {
+        IpScanner ipScanner = new IpScanner();
+        ipScanner.startScan(listener);
+    }
 }

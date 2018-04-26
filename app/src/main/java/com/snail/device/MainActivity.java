@@ -14,12 +14,14 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.internal.telephony.IEmulatorCheck;
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
+import com.snail.antifake.deviceid.IpScanner;
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
 import com.snail.antifake.deviceid.androidid.ISettingUtils;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
@@ -35,7 +37,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
-
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -144,8 +146,17 @@ public class MainActivity extends AppCompatActivity {
 
 
                 );
+
+                AndroidDeviceIMEIUtil.getMac(new IpScanner.OnScanListener() {
+                    @Override
+                    public void scan(Map<String, String> resultMap) {
+                        Log.v("lishang",resultMap.toString());
+                    }
+                });
             }
         });
+
+
     }
 
     final ServiceConnection serviceConnection = new ServiceConnection() {
