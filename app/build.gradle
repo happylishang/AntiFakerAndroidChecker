@@ -1,55 +1,45 @@
 apply plugin: 'com.android.application'
 
+
+apply plugin: 'android-apt'
+
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.snail.device"
-        minSdkVersion 14
+        applicationId "com.snail.labaffinity"
+        minSdkVersion 16
         targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
     }
-
     buildTypes {
         release {
+
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-
-        debug {
-//            applicationIdSuffix ".free"
-            ndk {
-                abiFilters "armeabi", "armeabi-v7a"
-            }
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    splits {
-        abi {
-            enable true
-            reset()
-            include  'armeabi-v7a', 'armeabi' //select ABIs to build APKs for
-            universalApk true //generate an additional APK that contains all the ABIs
-        }
-    }
-
-
-    sourceSets {
-        main {
-            jni.srcDirs=[]
-            jniLibs.srcDirs=['src/main/libs']
-        }
-
-    }
-
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:support-v4:23.0.1'
-    compile project (':antifake')
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.github.campusappcn.AndRouter:router:1.2.4'
+    compile 'com.jakewharton:butterknife:8.0.1'
+    apt 'com.github.campusappcn.AndRouter:compiler:1.2.4'
+    apt 'com.jakewharton:butterknife-compiler:8.0.1'
+   // compile files('libs/XposedBridgeApi-87.jar')
+
+
+    provided fileTree(dir: 'deps', include: ['*.jar'])
+
+    provided files('lib/XposedBridgeApi-87.jar')
+
+
 }
