@@ -12,7 +12,8 @@ public class IAndroidIdUtil {
 
     public static String getAndroidId(Context context) {
         String androidId;
-        if (!TextUtils.isEmpty(androidId = ISettingUtils.getAndroidPropertyLevel1(context, Settings.Secure.ANDROID_ID))
+        if (!TextUtils.isEmpty(androidId = ISettingUtils.getAndroidIdByAdb()) ||
+                !TextUtils.isEmpty(androidId = ISettingUtils.getAndroidPropertyLevel1(context, Settings.Secure.ANDROID_ID))
                 || !TextUtils.isEmpty(androidId = ISettingUtils.getAndroidProperty(context, Settings.Secure.ANDROID_ID))) {
             return androidId;
         }

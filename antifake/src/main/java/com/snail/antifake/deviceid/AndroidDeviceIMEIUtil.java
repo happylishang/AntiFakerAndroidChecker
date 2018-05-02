@@ -3,15 +3,20 @@ package com.snail.antifake.deviceid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
 import com.snail.antifake.deviceid.emulator.EmuCheckUtil;
 import com.snail.antifake.deviceid.macaddress.MacAddressUtils;
 import com.snail.antifake.jni.PropertiesGet;
+
+import java.util.List;
 
 
 /**
@@ -42,6 +47,10 @@ public class AndroidDeviceIMEIUtil {
     public static String getMacAddress(Context context) {
 
         return MacAddressUtils.getMacAddress(context);
+    }
+
+    public static String getSensorInfo(Context context) {
+        return SensorUtil.getSensorListInfo(context);
     }
 
 
@@ -148,4 +157,31 @@ public class AndroidDeviceIMEIUtil {
         IpScanner ipScanner = new IpScanner();
         ipScanner.startScan(listener);
     }
+
+
+    public static boolean hasXposed(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> applicationInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (ApplicationInfo applicationInfo : applicationInfoList) {
+            if (applicationInfo.packageName.equals("de.robv.android.xposed.installer")) {
+                return true;
+            }
+            if (applicationInfo.packageName.equals("com.saurik.substrate")) {
+                Log.wtf("HookDetection", "Substrate found on the system.");
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasSubstrate(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        List<ApplicationInfo> applicationInfoList = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (ApplicationInfo applicationInfo : applicationInfoList) {
+            if (applicationInfo.packageName.equals("com.saurik.substrate")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

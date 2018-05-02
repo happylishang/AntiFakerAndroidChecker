@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.IBinder;
 import android.os.Process;
 
+import com.snail.antifake.deviceid.ShellAdbUtils;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -17,6 +19,16 @@ import java.util.HashSet;
  */
 
 public class ISettingUtils {
+
+    public static String getAndroidIdByAdb() {
+        try {
+            return ShellAdbUtils.execCommand("content query --uri content://settings/secure/android_id --projection value", false).successMsg;
+
+        } catch (Exception e) {
+
+        }
+        return "";
+    }
 
     public static String getAndroidProperty(Context context, String name) {
         try {
