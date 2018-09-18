@@ -43,10 +43,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-//                for(int i=0;i<10;i++)
-                {
+                for (int i = 0; i < 10; i++) {
                     TextView textView = (TextView) findViewById(R.id.btn_sycn_moni);
                     textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulator());
+                    Log.v("snail"," 是否模拟器 " + EmulatorDetectUtil.isEmulator());
                 }
             }
         });
@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
             IEmulatorCheck IEmulatorCheck = com.android.internal.telephony.IEmulatorCheck.Stub.asInterface(service);
             if (IEmulatorCheck != null) {
                 try {
-                    Log.e("CacheCheck ", " start"  );
+                    Log.e("CacheCheck ", " start");
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
                     boolean ret = IEmulatorCheck.isEmulator();
                     textView.setText(" 是否模拟器 " + ret);

@@ -91,7 +91,6 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
                      "\x00\x00\xa0\xe1"
                      "\x00\x00\xa0\xe1";
 
-
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
                       (off_t) 0);
     memcpy(exec, code,  (size_t) getpagesize() );
@@ -103,7 +102,8 @@ JNIEXPORT jboolean JNICALL Java_com_snail_device_jni_EmulatorDetectUtil_detect
       //   LOGI("%x",*(((int *)exec)+i));
      //  }
     //LOGI(" mmap sucess exec  %x", exec);
-    LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");
+    //LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");LOGI("");
+    __clear_cache(exec, exec+ (size_t) getpagesize() );
     asmcheck = (int *) exec;
     int ret=-1;
     ret= asmcheck();
