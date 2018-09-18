@@ -107,7 +107,7 @@ public class MacAddressUtils {
             if (wifiList != null && info != null) {
                 for (int i = 0; i < wifiList.size(); i++) {
                     ScanResult result = wifiList.get(i);
-                    if (info.getBSSID().equals(result.BSSID)) {
+                    if (!TextUtils.isEmpty(info.getBSSID()) && info.getBSSID().equals(result.BSSID)) {
                         connectedWifiMacAddress = result.BSSID;
                     }
                 }
