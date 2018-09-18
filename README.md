@@ -280,4 +280,4 @@ APP开发中常需要获取Android的Deviceid，以应对防刷，目前常用�
 [Github连接 CacheEmulatorChecker](https://github.com/happylishang/CacheEmulatorChecker)     
 
 
-#### 8.0之后，序列号只能通过adb来获取
+#### 8.0之后，序列号的获取跟IMEI权限绑定，如果不授权电话权限，同样获取不到序列号
