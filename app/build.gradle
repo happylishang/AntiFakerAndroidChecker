@@ -19,7 +19,7 @@ android {
         debug {
 //            applicationIdSuffix ".free"
             ndk {
-                abiFilters "armeabi", "armeabi-v7a"
+                abiFilters "armeabi", "armeabi-v7a","x86"
             }
         }
     }
