@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "com.snail.device"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 28
     }
 
     buildTypes {

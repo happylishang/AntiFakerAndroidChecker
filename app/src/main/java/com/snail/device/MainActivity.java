@@ -39,6 +39,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import static com.snail.device.CrashHandlerApplication.getApplication;
+
 
 public class MainActivity extends AppCompatActivity {
 
