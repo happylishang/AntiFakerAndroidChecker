@@ -1,5 +1,6 @@
 package com.snail.antifake.deviceid;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -53,13 +54,19 @@ public class AndroidDeviceIMEIUtil {
 
 
     //    序列号	 重新烧录flash
+    @SuppressLint("MissingPermission")
     public static String getSerialno() {
-        String serialno = PropertiesGet.getString("ro.serialno");
-        if (TextUtils.isEmpty(serialno)) {
-            serialno = ShellAdbUtils.execCommand("cat /sys/class/android_usb/android0/iSerial", false).successMsg;
-        }
-        if (TextUtils.isEmpty(serialno)) {
-            serialno = Build.SERIAL;
+        String serialno = "";
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                serialno = Build.getSerial();
+            } else {
+                serialno = PropertiesGet.getString("ro.serialno");
+                if (TextUtils.isEmpty(serialno)) {
+                    serialno = Build.SERIAL;
+                }
+            }
+        } catch (Exception e) {
         }
         return serialno;
     }
