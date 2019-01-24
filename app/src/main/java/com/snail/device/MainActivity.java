@@ -65,9 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_sycn_moni).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                TextView textView = (TextView) findViewById(R.id.btn_sycn_moni);
-                textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulator());
+                for (int i = 0; i < 100; i++) {
+                    TextView textView = (TextView) findViewById(R.id.btn_sycn_moni);
+                    textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulator());
+                }
 
             }
         });
