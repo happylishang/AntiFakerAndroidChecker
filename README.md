@@ -1,10 +1,10 @@
-#      								严禁用于商业牟利
+###      								严禁用于商业牟利
 
 
-# 本库目标
+###  本库目标
 
-1 检测是否模拟器
-2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
+* 1 检测是否模拟器
+* 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
 
 #### 检测是否模拟器原理  [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
