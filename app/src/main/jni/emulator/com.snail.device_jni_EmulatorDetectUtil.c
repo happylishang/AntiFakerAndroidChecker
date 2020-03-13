@@ -117,6 +117,7 @@ char code[] =
             LOGI(" mmap copy  exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
+       __clear_cache(exec, exec+ (size_t) getpagesize() );
       a= asmcheck();
    // a=detectAsm ();
     munmap(exec, getpagesize());
