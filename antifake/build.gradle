@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'maven'
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -35,4 +35,17 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.0.1'
     testCompile 'junit:junit:4.12'
+}
+
+
+version = '0.1.0-SNAPSHOT'
+group = 'com.snail.antifake'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            repository(url: uri("${rootProject.projectDir}/repo"))
+        }
+    }
 }
