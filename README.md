@@ -12,6 +12,9 @@ ARM与PC的X86在架构上有很大区别，ARM采用的哈弗架构将指令存
 
  原文链接 [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
+      EmulatorDetectUtil.isEmulator()
+
+
 #### 2获取真实的Android设备信息 
 
 * 可以采用一些系统隐藏的接口来获取设备信息，隐藏的接口不太容易被篡改，因为可能或导致整个系统运行不正常
