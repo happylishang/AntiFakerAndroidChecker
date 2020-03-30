@@ -12,7 +12,7 @@
         android:id="@+id/btn_dna"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取硬件信息"/>
+        android:text="获取ID硬件信息"/>
 
     <Button
         android:id="@+id/btn_moni"
