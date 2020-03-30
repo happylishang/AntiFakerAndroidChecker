@@ -19,7 +19,7 @@ android {
         debug {
 //            applicationIdSuffix ".free"
             ndk {
-                abiFilters "armeabi", "armeabi-v7a"
+                abiFilters "arm64-v8a", "armeabi-v7a"
             }
         }
     }
@@ -28,7 +28,7 @@ android {
         abi {
             enable true
             reset()
-            include  'armeabi-v7a', 'armeabi' //select ABIs to build APKs for
+            include  'armeabi-v7a', 'arm64-v8a' //select ABIs to build APKs for
             universalApk true //generate an additional APK that contains all the ABIs
         }
     }
@@ -45,8 +45,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.android.support:appcompat-v7:28.0.0'
+    compile 'com.android.support:support-v4:28.0.0'
     compile project (':antifake')
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
