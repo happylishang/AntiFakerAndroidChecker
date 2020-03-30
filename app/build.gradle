@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.snail.device"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
     }
 
@@ -46,7 +46,7 @@ android {
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation project (':antifake')
+//    implementation project (':antifake')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    implementation 'com.snail:antifake:1.2'
 }
