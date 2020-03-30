@@ -15,25 +15,25 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             ndk {
-                abiFilters "arm64-v8a", "armeabi-v7a",'x86',"x86-64"
+                abiFilters "arm64-v8a", "armeabi-v7a",'x86',"x86_64"
             }
         }
 
         debug {
             ndk {
-                abiFilters "arm64-v8a", "armeabi-v7a",'x86',"x86-64"
+                abiFilters "arm64-v8a", "armeabi-v7a",'x86',"x86_64"
             }
         }
     }
 
-//    splits {
-//        abi {
-//            enable true
-//            reset()
-//            include  'armeabi-v7a', 'arm64-v8a',"x86" //select ABIs to build APKs for
-//            universalApk true //generate an additional APK that contains all the ABIs
-//        }
-//    }
+    splits {
+        abi {
+            enable true
+            reset()
+            include  'armeabi-v7a', 'arm64-v8a',"x86" //select ABIs to build APKs for
+            universalApk true //generate an additional APK that contains all the ABIs
+        }
+    }
 
 }
 
