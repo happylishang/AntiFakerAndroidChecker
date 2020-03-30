@@ -18,13 +18,13 @@
         android:id="@+id/btn_moni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Binder多进程判断是不是模拟器 不崩溃"/>
+        android:text="Binder是不是模拟器 不崩溃"/>
 
     <Button
         android:id="@+id/btn_sycn_moni"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="当前进程同步获取是不是模拟器 64可能崩溃"/>
+        android:text="同步获取是不是模拟器 64崩溃"/>
 
     <ScrollView
         android:layout_width="match_parent"
