@@ -1,5 +1,12 @@
 ###      								严禁用于商业牟利
 
+### 用法
+
+    implementation 'com.snail:antifake:1.2'
+    
+Java代码中
+
+      EmulatorDetectUtil.isEmulator()
 
 ###  本库目标：
 
@@ -12,7 +19,7 @@ ARM与PC的X86在架构上有很大区别，ARM采用的哈弗架构将指令存
 
  原文链接 [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
-      EmulatorDetectUtil.isEmulator()
+
 
 
 #### 2获取真实的Android设备信息 
