@@ -2,7 +2,7 @@
 
 ### 用法
 
-    implementation 'com.snail:antifake:1.2'
+    implementation 'com.snail:antifake:1.3'
     
 Java代码中
 
