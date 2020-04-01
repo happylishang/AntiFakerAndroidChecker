@@ -8,7 +8,8 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android.internal.telephony.IEmulatorCheck;
+import com.snail.antifake.IEmulatorCheck;
+
 
 /**
  * Author: snail

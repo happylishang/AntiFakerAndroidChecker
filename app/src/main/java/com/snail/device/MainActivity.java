@@ -22,7 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.internal.telephony.IEmulatorCheck;
+import com.snail.antifake.IEmulatorCheck;
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
 import com.snail.antifake.deviceid.IpScanner;
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
@@ -80,11 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IEmulatorCheck IEmulatorCheck = com.android.internal.telephony.IEmulatorCheck.Stub.asInterface(service);
-            if (IEmulatorCheck != null) {
+            IEmulatorCheck emulatorCheck =  IEmulatorCheck.Stub.asInterface(service);
+            if (emulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + IEmulatorCheck.isEmulator());
+                    textView.setText(" 是否模拟器 " + emulatorCheck.isEmulator());
                     unbindService(this);
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
