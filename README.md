@@ -8,19 +8,19 @@ Java代码中
 
       EmulatorDetectUtil.isEmulator()
 
-###  本库目标：
+##  本库目标：
 
 * 1 检测是否模拟器 其实主要是检测simple x86架构（模拟器采用），真机极少采用，放弃这部分用户并无不可
 * 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
 
-#### 1、检测是否模拟器原理  [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
+## 1、检测是否模拟器原理  [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
 ARM与模拟器采用的Simple X86在架构上有很大区别，可利用SMC（自修改代码+mmap）甄别
 
  原文链接 [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
 
-#### 2、获取真实的Android设备信息 
+## 2、获取真实的Android设备信息 
 
 * 可以采用一些系统隐藏的接口来 
 * 可以自己实现通过Binder通信
