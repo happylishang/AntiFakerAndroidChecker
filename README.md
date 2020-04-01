@@ -2,7 +2,7 @@
 
 ### 用法
 
-    implementation 'com.snail:antifake:1.3'
+     导入release包中的aar
     
 Java代码中
 
