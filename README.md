@@ -1,6 +1,6 @@
 ###      								严禁用于商业牟利
 
-### 用法
+### 用法 jcenter
 
        implementation 'com.snail:antifake:1.3'
     
