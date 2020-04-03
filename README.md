@@ -1,4 +1,10 @@
-###      								严禁用于商业牟利
+#     								严禁用于商业牟利
+
+##  本库目标：
+
+* 1 检测是否模拟器 其实主要是检测simple x86架构（模拟器采用），真机极少采用，放弃这部分用户并无不可
+* 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
+
 
 ### 用法 jcenter
 
@@ -8,10 +14,7 @@ Java代码中
 
       EmulatorDetectUtil.isEmulator()
 
-##  本库目标：
 
-* 1 检测是否模拟器 其实主要是检测simple x86架构（模拟器采用），真机极少采用，放弃这部分用户并无不可
-* 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
 
 ## 1、检测是否模拟器原理  [ Android模拟器识别技术](http://www.jianshu.com/p/1db610cc8b84) 
 
