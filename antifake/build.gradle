@@ -78,7 +78,7 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 bintray {
     user = "happylishang2956"
-    key = ''
+    key = '7a2ee883da7028f349ca26a43a32efa679bcf2c7'
     configurations = ['archives']
     pkg {
         repo = "maven"
@@ -91,7 +91,7 @@ bintray {
 }
 
 
-version = '1.3'
+version = '1.4'
 group = 'com.snail'
 
 task sourcesJar(type: Jar) {

@@ -150,7 +150,7 @@ public class EmuCheckUtil {
     private static boolean isEmulatorFromCpu() {
         ShellAdbUtils.CommandResult commandResult = ShellAdbUtils.execCommand("cat /proc/cpuinfo", false);
         String cpuInfo = commandResult == null ? "" : commandResult.successMsg;
-        return !TextUtils.isEmpty(cpuInfo) && ((cpuInfo.contains("intel") || cpuInfo.contains("amd")));
+        return !TextUtils.isEmpty(cpuInfo) && ((cpuInfo.toLowerCase().contains("intel") || cpuInfo.toLowerCase().contains("amd")));
     }
 
 

@@ -28,7 +28,7 @@ public class EmulatorCheckService extends Service {
 
             @Override
             public boolean isEmulator() throws RemoteException {
-                return EmulatorDetectUtil.isEmulator();
+                return EmulatorDetectUtil.isEmulator(EmulatorCheckService.this);
             }
             @Override
             public void kill() throws RemoteException {
