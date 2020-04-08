@@ -8,11 +8,11 @@
 
 ### 用法 jcenter
 
-       implementation 'com.snail:antifake:1.3'
+       implementation 'com.snail:antifake:1.4'
     
 Java代码中
 
-      EmulatorDetectUtil.isEmulator()
+      EmulatorDetectUtil.isEmulator(context)
 
 
 
