@@ -72,15 +72,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
-
-        findViewById(R.id.btn_dna).setOnClickListener(this);
     }
 
     final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            IEmulatorCheck emulatorCheck =  IEmulatorCheck.Stub.asInterface(service);
+            IEmulatorCheck emulatorCheck = IEmulatorCheck.Stub.asInterface(service);
             if (emulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_moni);
@@ -109,26 +106,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        TextView textView = null;
-
-//                String cpuInfo = "";
-//                try {
-//                    String[] args = {"/system/bin/cat", "/proc/cpuinfo"};
-//                    ProcessBuilder cmd = new ProcessBuilder(args);
-//                    Process process = cmd.start();
-//                    StringBuffer sb = new StringBuffer();
-//                    String readLine = "";
-//                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(process.getInputStream(), "utf-8"));
-//                    while ((readLine = responseReader.readLine()) != null) {
-//                        sb.append(readLine);
-//                    }
-//                    responseReader.close();
-//                    cpuInfo = sb.toString().toLowerCase();
-//                } catch (IOException ex) {
-//                }
-
-
-        textView = (TextView) findViewById(R.id.tv_getdeviceid);
+        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -136,34 +114,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     0);
             return;
         }
-        textView.setText("\n 最终方法获取IMEI  \n" + DeviceIdUtil.getDeviceId(mActivity)
-                + "\n最终方法获取MAC地址 \n" + MacAddressUtils.getMacAddress(mActivity)
-                + "\n最终方法获取AndroidID \n" + IAndroidIdUtil.getAndroidId(mActivity)
-                + "\n 是否模拟器  " + EmuCheckUtil.mayOnEmulator(mActivity)
-                + " \n\n可Hook系统API获取Deviceid\n" + ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId()
-                + "\n 真实 反Hook Proxy代理获取Deviceid \n" + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
-                + "\n真实 反Hook Proxy代理获取Deviceid level1\n" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
-                + "\n真实 反Hook Proxy代理获取Deviceid level2\n" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
-                + "\n 真实 ITelephonyUtil反Hook 获取DeviceId\n" + ITelephonyUtil.getDeviceIdLevel0(mActivity)
-                + "\n 真实 ITelephonyUtil反Hook 获取DeviceId level1 \n" + ITelephonyUtil.getDeviceIdLevel1(mActivity)
-                + "\n 自定义ServiceManager获取getDeviceId level2 \n" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
-                + "\n " + EmuCheckUtil.getCpuInfo()
-                + "\n " + PropertiesGet.getString("ro.product.cpu.abi")
-                + "\n 获取链接的路由器地址" + MacAddressUtils.getConnectedWifiMacAddress(getApplication())
+        textView.setText(
+                "\n 最终方法获取IMEI  \n" + DeviceIdUtil.getDeviceId(mActivity)
+                        + "\n最终方法获取MAC地址 \n" + MacAddressUtils.getMacAddress(mActivity)
+                        + "\n最终方法获取AndroidID \n" + IAndroidIdUtil.getAndroidId(mActivity)
+                        + "\n 是否模拟器  " + EmuCheckUtil.mayOnEmulator(mActivity)
+                        + " \n\n可Hook系统API获取Deviceid\n" + ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId()
+                        + "\n 真实 反Hook Proxy代理获取Deviceid \n" + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
+                        + "\n真实 反Hook Proxy代理获取Deviceid level1\n" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
+                        + "\n真实 反Hook Proxy代理获取Deviceid level2\n" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
+                        + "\n 真实 ITelephonyUtil反Hook 获取DeviceId\n" + ITelephonyUtil.getDeviceIdLevel0(mActivity)
+                        + "\n 真实 ITelephonyUtil反Hook 获取DeviceId level1 \n" + ITelephonyUtil.getDeviceIdLevel1(mActivity)
+                        + "\n 自定义ServiceManager获取getDeviceId level2 \n" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
+                        + "\n " + EmuCheckUtil.getCpuInfo()
+                        + "\n " + PropertiesGet.getString("ro.product.cpu.abi")
+                        + "\n 获取链接的路由器地址" + MacAddressUtils.getConnectedWifiMacAddress(getApplication())
         );
         textView = (TextView) findViewById(R.id.tv_all);
-
-//                try {
-//                    Field seri = Build.class.getDeclaredField("SERIAL");
-//                    seri.setAccessible(true);
-//                    try {
-//                        seri.set(null, "" + System.currentTimeMillis());
-//                    } catch (IllegalAccessException e) {
-//                        e.printStackTrace();
-//                    }
-//                } catch (NoSuchFieldException e) {
-//                    e.printStackTrace();
-//                }
 
         textView.setText("\n系统API反射获取序列号\n" + SysAPIUtil.getSerialNumber(mActivity)
                 + "\n系统API反射获取序列号\n" + SysAPIUtil.getJavaSerialNumber(mActivity)
