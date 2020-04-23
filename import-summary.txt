@@ -18,7 +18,7 @@ so manually move them:
 * .idea/workspace.xml
 * ic_launcher-web.png
 * proguard-project.txt
-
+*
 Replaced Jars with Dependencies:
 --------------------------------
 The importer recognized the following .jar files as third party
