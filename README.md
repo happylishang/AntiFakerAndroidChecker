@@ -30,8 +30,8 @@ ARM与模拟器采用的Simple X86在架构上有很大区别，可利用SMC（�
 * 可以采用Native方式获取设备信息，避免被Xposed Hook
 
 
-Android8.0之后，序列号的获取跟IMEI权限绑定，如果不授权电话权限，同样获取不到序列号
+### Android8.0之后，序列号的获取跟IMEI权限绑定，如果不授权电话权限，同样获取不到序列号
 
-Android 10.0之后，序列号、IMEI 非系统APP获取不到
+### Android 10.0之后，序列号、IMEI 非系统APP获取不到
 
-Android 11.0之后，序列号、IMEI MAC 非系统APP获取不到
+### Android 11.0之后，序列号、IMEI MAC 非系统APP获取不到
