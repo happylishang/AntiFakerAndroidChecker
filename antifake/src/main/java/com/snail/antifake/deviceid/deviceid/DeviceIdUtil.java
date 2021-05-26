@@ -1,5 +1,6 @@
 package com.snail.antifake.deviceid.deviceid;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 
 public class DeviceIdUtil {
 
+    @SuppressLint("MissingPermission")
     public static String getDeviceId(Context context) {
 
         String deviceId;

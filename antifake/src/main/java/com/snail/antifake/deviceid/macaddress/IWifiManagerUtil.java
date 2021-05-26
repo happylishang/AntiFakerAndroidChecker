@@ -1,5 +1,6 @@
 package com.snail.antifake.deviceid.macaddress;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -32,6 +33,8 @@ public class IWifiManagerUtil {
 
         return address;
     }
+//    @SuppressLint("HardwareIds")
+    @SuppressLint("MissingPermission")
     private static String getMacAddressLevel0(Context context) {
         String macAddress = null;
         try {
@@ -60,6 +63,7 @@ public class IWifiManagerUtil {
         return macAddress;
     }
 
+    @SuppressLint("HardwareIds")
     private static String getMacAddressLevel1(Context context) {
         String macAddress = null;
         try {

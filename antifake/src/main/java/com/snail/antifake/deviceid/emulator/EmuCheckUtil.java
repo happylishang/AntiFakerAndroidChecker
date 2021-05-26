@@ -1,5 +1,6 @@
 package com.snail.antifake.deviceid.emulator;
 
+import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -101,6 +102,7 @@ public class EmuCheckUtil {
     }
 
     //  判断是否存在作假，如果TelephonyManager获取非空，但是底层获取为null，说明直接在上层Hook了
+    @SuppressLint("MissingPermission")
     public static boolean isFakeEmulatorFromIMEI(Context context) {
 
         String deviceId = null;
