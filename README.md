@@ -9,6 +9,10 @@
 ### 用法 jcenter
 
        implementation 'com.snail:antifake:1.4'
+       
+### 用法 MavenCentral
+
+       implementation 'io.github.happylishang:antifake:1.4.0'
     
 Java代码中
 
