@@ -12,7 +12,7 @@
        
 ### 用法 MavenCentral
 
-       implementation 'io.github.happylishang:antifake:1.4.0'
+       implementation 'io.github.happylishang:antifake:1.5.0'
     
 Java代码中
 
