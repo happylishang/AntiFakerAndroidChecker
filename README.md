@@ -8,7 +8,7 @@
 
 #### 用法 jcenter  jcenter后续废弃
 
-       implementation 'com.snail:antifake:1.4'
+    implementation 'io.github.happylishang:antifake:1.5.0'
        
 ### 用法 MavenCentral
 
