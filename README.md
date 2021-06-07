@@ -6,9 +6,6 @@
 * 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
 
 
-#### 用法 jcenter  jcenter后续废弃
-
-    implementation 'io.github.happylishang:antifake:1.5.0'
        
 ### 用法 MavenCentral
 
