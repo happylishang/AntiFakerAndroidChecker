@@ -10,11 +10,19 @@ cmake_minimum_required(VERSION 3.4.1)
 # or SHARED, and provides the relative paths to its source code.
 add_library(
       # 设置so文件名称.
-       rand
+       emulator_check
        # 设置这个so文件为共享.
        SHARED
        # Provides a relative path to your source file(s).
-       src/main/jni/sec.c src/main/jni/md5.c )
+       src/main/jni/emulator/emcheck.c )
+
+add_library(
+      # 设置so文件名称.
+       property_get
+       # 设置这个so文件为共享.
+       SHARED
+       # Provides a relative path to your source file(s).
+       src/main/jni/property/proget.c )
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by

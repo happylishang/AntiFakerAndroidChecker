@@ -1,0 +1,68 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 16 min SDK version: x86",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "Trying to locate CMake in local SDK repository.",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "CMake \u00273.10.2\u0027 found in SDK did not match requested version \u00273.18.1\u0027.",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "- CMake found in SDK at \u0027/Users/hzlishang/Library/Android/sdk/cmake/3.18.1\u0027 had version \u00273.18.1\u0027",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "CMake \u00273.6.0\u0027 found in SDK did not match requested version \u00273.18.1\u0027.",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "rebuilding JSON /Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/.cxx/cmake/release/x86/android_gradle_build.json due to:",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "- expected json /Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/.cxx/cmake/release/x86/android_gradle_build.json file is not present, will remove stale json folder",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "- missing previous command file /Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/.cxx/cmake/release/x86/build_command.txt, will remove stale json folder",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "- command changed from previous, will remove stale json folder",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "created folder \u0027/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/.cxx/cmake/release/x86\u0027",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  },
+  {
+    "level": "INFO",
+    "message": "executing cmake Executable : /Users/hzlishang/Library/Android/sdk/cmake/3.18.1/bin/cmake\narguments : \n-H/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake\n-DCMAKE_BUILD_TYPE\u003dRelease\n-DCMAKE_TOOLCHAIN_FILE\u003d/Users/hzlishang/Library/Android/sdk/ndk/20.0.5594570/build/cmake/android.toolchain.cmake\n-DANDROID_ABI\u003dx86\n-DANDROID_NDK\u003d/Users/hzlishang/Library/Android/sdk/ndk/20.0.5594570\n-DANDROID_PLATFORM\u003dandroid-16\n-DCMAKE_ANDROID_ARCH_ABI\u003dx86\n-DCMAKE_ANDROID_NDK\u003d/Users/hzlishang/Library/Android/sdk/ndk/20.0.5594570\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/build/intermediates/cmake/release/obj/x86\n-DCMAKE_MAKE_PROGRAM\u003d/Users/hzlishang/Library/Android/sdk/cmake/3.18.1/bin/ninja\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_SYSTEM_VERSION\u003d16\n-B/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/.cxx/cmake/release/x86\n-GNinja\njvmArgs : \n\n",
+    "file": "/Users/hzlishang/prj/demo/AntiFakerAndroidChecker/antifake/CMakeLists.txt",
+    "tag": "release|x86"
+  }
+]
