@@ -41,8 +41,7 @@ proGetSS
 
 JNIEXPORT jstring JNICALL
     proGet(JNIEnv *env, jclass clazz, jstring keyJ) {
-    return proGetSS(
-            env, clazz, keyJ, NULL);
+    return proGetSS(env, clazz, keyJ, NULL);
 }
 
 
@@ -59,11 +58,11 @@ static int registerNativeMethods(JNIEnv *env, const char *className,
     }
     return JNI_TRUE;
 }
-static const char *classPathName = "com/snail/antifake/jni/EmulatorDetectUtil";
+static const char *classPathName = "com/snail/antifake/jni/PropertiesGet";
 
 static JNINativeMethod methods[] = {
-        {"getString", "(Ljava/lang/String;)Ljava/lang/String;", (void *) proGet},
-        {"getString", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void *) proGetSS},
+        {"native_get", "(Ljava/lang/String;)Ljava/lang/String;", (void *) proGet},
+        {"native_get", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void *) proGetSS},
 
 };
 
@@ -75,10 +74,9 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
     if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK)
         goto bail;
 
-    if (registerNativeMethods(env, classPathName, methods, sizeof(methods)/sizeof(methods[0])))
+    if (!registerNativeMethods(env, classPathName, methods, sizeof(methods)/sizeof(methods[0])))
         goto bail;
 
-    /* success -- return valid version number */
     result = JNI_VERSION_1_4;
 
     bail:

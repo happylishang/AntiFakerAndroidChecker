@@ -33,9 +33,12 @@ public class DeviceIdUtil {
                 || !TextUtils.isEmpty(deviceId = ITelephonyUtil.getDeviceIdLevel0(context))) {
             return deviceId;
         }
-
-        TelephonyManager telephonyManager = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE));
-        return telephonyManager.getDeviceId();
+        try {
+            TelephonyManager telephonyManager = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE));
+            deviceId =telephonyManager.getDeviceId();
+        }catch (Exception ignore){
+        }
+        return deviceId;
     }
 
 

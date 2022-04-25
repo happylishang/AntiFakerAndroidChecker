@@ -66,10 +66,10 @@ char code[] =
 	 	"\x00\x00\xa0\xe1" //	nop
 		;
 
-   LOGI(" start  detect");
+//   LOGI(" start  detect");
     void *exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_ANONYMOUS | MAP_PRIVATE, -1,
                       (off_t) 0);
-    LOGI(" mmap sucess exec  %x  %d ", exec,(size_t) getpagesize());
+//    LOGI(" mmap sucess exec  %x  %d ", exec,(size_t) getpagesize());
     if (exec == (void *) -1) {
         int fd = fopen("/dev/zero", "w+");
         exec = mmap(NULL, (size_t) getpagesize(), PROT, MAP_PRIVATE, fd, (off_t) 0);
@@ -79,13 +79,13 @@ char code[] =
     }
 
     memcpy(exec, code,  sizeof(code));
-    LOGI(" mmap copy  exec  %x", exec);
+//    LOGI(" mmap copy  exec  %x", exec);
     //如果不是 (size_t) getpagesize() 是sizeof（code），就必须加上LOGI(" mmap sucess exec  %x", exec); ，才能降低崩溃概率，这尼玛操蛋
     asmcheck = (int *) exec;
        __clear_cache(exec, exec+ (size_t) getpagesize() );
       a= asmcheck();
    // a=detectAsm ();
-        LOGI(" ret --  %x", a);
+//        LOGI(" ret --  %x", a);
     munmap(exec, getpagesize());
 
     return a == 1;
@@ -106,9 +106,6 @@ static int registerNativeMethods(JNIEnv *env, const char *className,
 }
 static const char *classPathName = "com/snail/antifake/jni/EmulatorDetectUtil";
 
-void detect2(){
-    LOGI(" ret -- asdfadfasdf %xs"  );
-}
 static JNINativeMethod methods[] = {
         {"detectS", "()Z", (void *) detect},
 };
