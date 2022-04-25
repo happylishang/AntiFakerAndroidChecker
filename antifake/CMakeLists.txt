@@ -14,7 +14,7 @@ add_library(
        # 设置这个so文件为共享.
        SHARED
        # Provides a relative path to your source file(s).
-       src/main/jni/emulator/emcheck.c )
+       src/main/jni/emulator/emcheck64.c )
 #
 #add_library(
 #      # 设置so文件名称.

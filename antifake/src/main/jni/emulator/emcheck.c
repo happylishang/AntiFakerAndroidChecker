@@ -10,7 +10,7 @@
 #include <string.h>
 #include  <android/log.h>
 #include <assert.h>
-
+#include <stdlib.h>
 
 #define LOGI(...) __android_log_print(ANDROID_LOG_ERROR,"lishang",__VA_ARGS__)
 #define PROT PROT_EXEC|PROT_WRITE|PROT_READ
