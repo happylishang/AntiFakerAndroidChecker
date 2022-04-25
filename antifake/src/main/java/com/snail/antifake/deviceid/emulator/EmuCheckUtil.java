@@ -11,10 +11,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.content.PermissionChecker;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
+import androidx.core.content.PermissionChecker;
 
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
 import com.snail.antifake.deviceid.ShellAdbUtils;

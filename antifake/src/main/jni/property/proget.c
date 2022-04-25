@@ -9,7 +9,7 @@
 
 
 JNIEXPORT jstring JNICALL
-Java_com_snail_antifake_jni_PropertiesGet_native_1get__Ljava_lang_String_2Ljava_lang_String_2
+proGetSS
         (JNIEnv *env, jclass clazz, jstring keyJ, jstring defJ) {
     int len;
     const char *key;
@@ -40,9 +40,48 @@ Java_com_snail_antifake_jni_PropertiesGet_native_1get__Ljava_lang_String_2Ljava_
 
 
 JNIEXPORT jstring JNICALL
-Java_com_snail_antifake_jni_PropertiesGet_native_1get__Ljava_lang_String_2
-        (JNIEnv *env, jclass clazz, jstring keyJ) {
-    return Java_com_snail_antifake_jni_PropertiesGet_native_1get__Ljava_lang_String_2Ljava_lang_String_2(
+    proGet(JNIEnv *env, jclass clazz, jstring keyJ) {
+    return proGetSS(
             env, clazz, keyJ, NULL);
 }
 
+
+static int registerNativeMethods(JNIEnv *env, const char *className,
+                                 JNINativeMethod *gMethods, int numMethods) {
+    jclass clazz;
+
+    clazz = (*env)->FindClass(env, className);
+    if (clazz == NULL)
+        return JNI_FALSE;
+
+    if ((*env)->RegisterNatives(env, clazz, gMethods, numMethods) < 0) {
+        return JNI_FALSE;
+    }
+    return JNI_TRUE;
+}
+static const char *classPathName = "com/snail/antifake/jni/EmulatorDetectUtil";
+
+static JNINativeMethod methods[] = {
+        {"getString", "(Ljava/lang/String;)Ljava/lang/String;", (void *) proGet},
+        {"getString", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", (void *) proGetSS},
+
+};
+
+jint JNI_OnLoad(JavaVM* vm, void* reserved)
+{
+    JNIEnv* env = NULL;
+    jint result = -1;
+
+    if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK)
+        goto bail;
+
+    if (registerNativeMethods(env, classPathName, methods, sizeof(methods)/sizeof(methods[0])))
+        goto bail;
+
+    /* success -- return valid version number */
+    result = JNI_VERSION_1_4;
+
+    bail:
+    //LOGI("Leaving JNI_OnLoad (result=0x%x)\n", result);
+    return result;
+}

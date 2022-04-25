@@ -2,9 +2,10 @@ package com.snail.antifake.deviceid.deviceid;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 /**
  * deviceid的获取

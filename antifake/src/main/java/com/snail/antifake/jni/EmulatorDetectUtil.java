@@ -28,7 +28,7 @@ public class EmulatorDetectUtil {
     /**
      * 只考虑cache，Android R之后，模拟器机制有变化，检测会有问题
      */
-    public static boolean isEmulator() {
+    public static boolean isEmulatorFromArch() {
         return detect();
     }
 
