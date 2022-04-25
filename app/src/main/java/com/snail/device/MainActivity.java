@@ -81,6 +81,15 @@ public class MainActivity extends AppCompatActivity {
                 getHInfo(view);
             }
         });
+
+        findViewById(R.id.btn_sycn_integer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView textView = (TextView) findViewById(R.id.btn_sycn_integer);
+                textView.setText(" 是否模拟器 "+ EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
+            }
+        });
+
     }
 
     final ServiceConnection serviceConnection = new ServiceConnection() {

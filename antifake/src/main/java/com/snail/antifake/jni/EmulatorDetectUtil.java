@@ -25,12 +25,12 @@ public class EmulatorDetectUtil {
      * 同时考虑特征值跟cache
      */
     public static boolean isEmulator(Context context) {
-        return AndroidDeviceIMEIUtil.isRunOnEmulator(context) || detectS();
+        return  detectS();
     }
     /**
      * 只考虑cache，Android R之后，模拟器机制有变化，检测会有问题
      */
-    public static boolean isEmulatorFromArch() {
-        return detectS();
+    public static boolean isEmulatorFromAll(Context context) {
+        return AndroidDeviceIMEIUtil.isRunOnEmulator(context) || detectS();
     }
 }
