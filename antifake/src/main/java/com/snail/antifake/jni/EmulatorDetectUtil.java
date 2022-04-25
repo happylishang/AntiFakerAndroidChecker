@@ -20,8 +20,7 @@ public class EmulatorDetectUtil {
     }
 
     @Keep
-    public static native boolean detectS();
-
+    native  public static  boolean detectS();
     /**
      * 同时考虑特征值跟cache
      */
