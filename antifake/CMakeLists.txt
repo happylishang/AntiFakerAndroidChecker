@@ -16,14 +16,21 @@ add_library(
        # Provides a relative path to your source file(s).
        src/main/jni/emulator/emcheck64.c )
 #
+#add_library(
+#        # 设置so文件名称.
+#        emulator_check_32
+#        # 设置这个so文件为共享.
+#        SHARED
+#        # Provides a relative path to your source file(s).
+#        src/main/jni/emulator/emcheck32.c)
+
 add_library(
       # 设置so文件名称.
        property_get
        # 设置这个so文件为共享.
        SHARED
        # Provides a relative path to your source file(s).
-       src/main/jni/property/proget.c )
-
+       src/main/jni/property/proget.c)
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
 # default, you only need to specify the name of the public NDK library
@@ -51,3 +58,6 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib} )
+#
+#target_compile_options ( <lib> PUBLIC -m32 )
+#target_link_libraries ( <target> PRIVATE <lib> )
