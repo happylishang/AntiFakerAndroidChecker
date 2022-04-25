@@ -33,7 +33,10 @@ android {
             universalApk true //generate an additional APK that contains all the ABIs
         }
     }
-
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 }
 
 dependencies {
