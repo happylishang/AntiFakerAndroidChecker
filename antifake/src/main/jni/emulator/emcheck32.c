@@ -96,7 +96,6 @@ JNIEXPORT jboolean JNICALL detect
 static int registerNativeMethods(JNIEnv *env, const char *className,
                                  JNINativeMethod *gMethods, int numMethods) {
     jclass clazz;
-
     clazz = (*env)->FindClass(env, className);
     if (clazz == NULL)
         return JNI_FALSE;
@@ -109,7 +108,7 @@ static int registerNativeMethods(JNIEnv *env, const char *className,
 static const char *classPathName = "com/snail/antifake/jni/EmulatorDetectUtil";
 
 static JNINativeMethod methods[] = {
-        {"detect", "()Z;", (void *) detect},
+        {"detectS", "()Z", (void *) detect},
 };
 
 jint JNI_OnLoad(JavaVM* vm, void* reserved)
@@ -119,10 +118,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved)
 
     if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK)
         goto bail;
-
     assert(env != NULL);
-
-    if (registerNativeMethods(env, classPathName, methods, sizeof(methods)/sizeof(methods[0])))
+    if (!registerNativeMethods(env, classPathName, methods, sizeof(methods)/sizeof(methods[0])))
         goto bail;
     result = JNI_VERSION_1_4;
     bail:
