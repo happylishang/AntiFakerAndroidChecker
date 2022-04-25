@@ -130,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
                         + "\n最终方法获取MAC地址 : " + MacAddressUtils.getMacAddress(mActivity)
                         + "\n最终方法获取AndroidID  : " + IAndroidIdUtil.getAndroidId(mActivity)
                         + "\n是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
-                        + " \n\n可Hook系统API获取Deviceid: " + ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId()
                         + "\n真实 反Hook Proxy代理获取Deviceid : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level2 :" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
