@@ -114,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-       @SuppressLint("SetTextI18n")
-       public void  getHInfo(View v) {
+    @SuppressLint("SetTextI18n")
+    public void getHInfo(View v) {
 
         TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
@@ -125,12 +125,21 @@ public class MainActivity extends AppCompatActivity {
                     0);
             return;
         }
+
+        String apideviceId = null;
+        try {
+            apideviceId = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+        } catch (Exception ignored) {
+        }
+
         textView.setText(
                 "设备信息 \n最终方法获取IMEI  : " + DeviceIdUtil.getDeviceId(mActivity)
                         + "\n最终方法获取MAC地址 : " + MacAddressUtils.getMacAddress(mActivity)
                         + "\n最终方法获取AndroidID  : " + IAndroidIdUtil.getAndroidId(mActivity)
                         + "\n是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
-                        + "\n真实 反Hook Proxy代理获取Deviceid : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
+                        + " \n\n可Hook系统API获取Deviceid: " +apideviceId
+                        +"\n真实 反Hook Proxy代理获取Deviceid : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level2 :" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
                         + "\n真实 ITelephonyUtil反Hook 获取DeviceId : " + ITelephonyUtil.getDeviceIdLevel0(mActivity)
