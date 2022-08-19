@@ -15,10 +15,13 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.snail.antifake.IEmulatorCheck;
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
@@ -37,12 +40,6 @@ import com.snail.antifake.jni.PropertiesGet;
 
 import java.util.Map;
 
-import static com.snail.device.CrashHandlerApplication.getApplication;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mActivity = this;
 
-        findViewById(R.id.btn_moni).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_async_simu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -64,21 +61,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.btn_sycn_moni).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_sycn_syc_simu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < 100; i++) {
-                    TextView textView = (TextView) findViewById(R.id.btn_sycn_moni);
-                    textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
+                    TextView textView = (TextView) findViewById(R.id.btn_sycn_syc_simu);
+                    textView.setText(" 同步获取是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
                 }
 
             }
         });
 
-        findViewById(R.id.btn_dna).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_hwinfo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getHInfo(view);
+                requestGetInfo();
             }
         });
 
@@ -86,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TextView textView = (TextView) findViewById(R.id.btn_sycn_integer);
-                textView.setText(" 是否模拟器 "+ EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
+                textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
             }
         });
-
+        requestGetInfo();
     }
 
     final ServiceConnection serviceConnection = new ServiceConnection() {
@@ -98,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
             IEmulatorCheck emulatorCheck = IEmulatorCheck.Stub.asInterface(service);
             if (emulatorCheck != null) {
                 try {
-                    TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + emulatorCheck.isEmulator());
+                    TextView textView = (TextView) findViewById(R.id.btn_async_simu);
+                    textView.setText(" 异步非UI进程获取是否模拟器 " + emulatorCheck.isEmulator());
                     unbindService(this);
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
@@ -116,25 +113,25 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getHInfo(null);
-        }
+        renderHWInfo();
     }
 
 
     @SuppressLint("SetTextI18n")
-    public void getHInfo(View v) {
+    public void requestGetInfo() {
 
-        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.READ_PHONE_STATE},
                     0);
-            return;
+        } else {
+            renderHWInfo();
         }
 
+    }
+
+    private void renderHWInfo() {
         String apideviceId = null;
         try {
             apideviceId = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
@@ -142,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception ignored) {
         }
 
+        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         textView.setText(
                 "设备信息 \n最终方法获取IMEI  : " + DeviceIdUtil.getDeviceId(mActivity)
                         + "\n最终方法获取MAC地址 : " + MacAddressUtils.getMacAddress(mActivity)
@@ -185,7 +183,6 @@ public class MainActivity extends AppCompatActivity {
         AndroidDeviceIMEIUtil.getMac(new IpScanner.OnScanListener() {
             @Override
             public void scan(Map<String, String> resultMap) {
-                Log.v("lishang", resultMap.toString());
             }
         });
     }
