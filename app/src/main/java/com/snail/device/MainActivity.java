@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void renderHWInfo() {
         String apideviceId = null;
         try {
@@ -179,11 +180,5 @@ public class MainActivity extends AppCompatActivity {
 
 
         );
-
-        AndroidDeviceIMEIUtil.getMac(new IpScanner.OnScanListener() {
-            @Override
-            public void scan(Map<String, String> resultMap) {
-            }
-        });
     }
 }

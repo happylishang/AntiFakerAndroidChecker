@@ -9,6 +9,7 @@ package com.snail.antifake.deviceid;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -46,6 +47,8 @@ public class IpScanner {
 
         //获取本机所在的局域网地址
         String hostIP = getHostIP();
+        if(TextUtils.isEmpty(hostIP))
+            return ;
         int lastIndexOf = hostIP.lastIndexOf(".");
         final String substring = hostIP.substring(0, lastIndexOf + 1);
         new Thread(new Runnable() {
