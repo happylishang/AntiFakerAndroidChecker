@@ -1,21 +1,23 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-
 apply from:  "../publish.gradle"
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.3"
+    compileSdkVersion 31
     lintOptions {
         abortOnError false
     }
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 31
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                version "3.18.1"
+                // 指定编译架构
+                abiFilters 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+            }
+        }
 
     }
     buildTypes {
@@ -35,19 +37,27 @@ android {
         }
     }
 
+    externalNativeBuild {
+        cmake {
+            // 在该文件种设置所要编写的c源码位置，以及编译后so文件的名字
+            path 'CMakeLists.txt'
+            version "3.18.1"
+        }
+    }
+
     sourceSets {
         main {
             jniLibs.srcDir 'src/main/libs'
             java.srcDirs 'src/main/java'
-
         }
     }
+
 }
 
 
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.android.support:appcompat-v7:28.0.0'
+    api 'androidx.appcompat:appcompat:1.4.1'
     compileOnly project (':telephony')
 }
 

@@ -9,3 +9,4 @@ signing.password=lishang2011
 signing.secretKeyRingFile=/Users/personal/secring.gpg
 ossrhUsername=BookSnail
 ossrhPassword=bVkpVqtZ#RAtwY2
+local.properties

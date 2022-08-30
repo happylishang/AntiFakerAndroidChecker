@@ -2,6 +2,8 @@ package com.snail.antifake.jni;
 
 import android.content.Context;
 
+import androidx.annotation.Keep;
+
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
 
 /**
@@ -10,29 +12,25 @@ import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
  * Des:
  * version:
  */
-
+@Keep
 public class EmulatorDetectUtil {
 
     static {
         System.loadLibrary("emulator_check");
     }
 
-    public static native boolean detect();
-
+    @Keep
+    native  public static  boolean detectS();
     /**
      * 同时考虑特征值跟cache
      */
     public static boolean isEmulator(Context context) {
-        return AndroidDeviceIMEIUtil.isRunOnEmulator(context) || detect();
+        return  detectS();
     }
     /**
      * 只考虑cache，Android R之后，模拟器机制有变化，检测会有问题
      */
-    public static boolean isEmulator() {
-        return detect();
-    }
-
-    public void throwNativeCrash() {
-
+    public static boolean isEmulatorFromAll(Context context) {
+        return AndroidDeviceIMEIUtil.isRunOnEmulator(context) || detectS();
     }
 }

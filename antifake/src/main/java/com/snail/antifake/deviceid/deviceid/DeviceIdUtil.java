@@ -2,9 +2,10 @@ package com.snail.antifake.deviceid.deviceid;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 /**
  * deviceid的获取
@@ -32,9 +33,12 @@ public class DeviceIdUtil {
                 || !TextUtils.isEmpty(deviceId = ITelephonyUtil.getDeviceIdLevel0(context))) {
             return deviceId;
         }
-
-        TelephonyManager telephonyManager = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE));
-        return telephonyManager.getDeviceId();
+        try {
+            TelephonyManager telephonyManager = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE));
+            deviceId =telephonyManager.getDeviceId();
+        }catch (Exception ignore){
+        }
+        return deviceId;
     }
 
 

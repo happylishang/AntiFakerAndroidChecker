@@ -14,14 +14,14 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.snail.antifake.IEmulatorCheck;
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
@@ -40,10 +40,8 @@ import com.snail.antifake.jni.PropertiesGet;
 
 import java.util.Map;
 
-import static com.snail.device.CrashHandlerApplication.getApplication;
 
-
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     private Activity mActivity;
 
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         mActivity = this;
 
-        findViewById(R.id.btn_moni).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_async_simu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -63,23 +61,32 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
-        findViewById(R.id.btn_sycn_moni).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_sycn_syc_simu).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < 100; i++) {
-                    TextView textView = (TextView) findViewById(R.id.btn_sycn_moni);
-                    textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
+                    TextView textView = (TextView) findViewById(R.id.btn_sycn_syc_simu);
+                    textView.setText(" 同步获取是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
                 }
 
             }
         });
 
-        findViewById(R.id.btn_dna).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_hwinfo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getHInfo(view);
+                requestGetInfo();
             }
         });
+
+        findViewById(R.id.btn_sycn_integer).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView textView = (TextView) findViewById(R.id.btn_sycn_integer);
+                textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
+            }
+        });
+        requestGetInfo();
     }
 
     final ServiceConnection serviceConnection = new ServiceConnection() {
@@ -88,8 +95,8 @@ public class MainActivity extends AppCompatActivity  {
             IEmulatorCheck emulatorCheck = IEmulatorCheck.Stub.asInterface(service);
             if (emulatorCheck != null) {
                 try {
-                    TextView textView = (TextView) findViewById(R.id.btn_moni);
-                    textView.setText(" 是否模拟器 " + emulatorCheck.isEmulator());
+                    TextView textView = (TextView) findViewById(R.id.btn_async_simu);
+                    textView.setText(" 异步非UI进程获取是否模拟器 " + emulatorCheck.isEmulator());
                     unbindService(this);
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
@@ -105,30 +112,40 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getHInfo(null);
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        renderHWInfo();
     }
 
 
-       @SuppressLint("SetTextI18n")
-       public void  getHInfo(View v) {
+    @SuppressLint("SetTextI18n")
+    public void requestGetInfo() {
 
-        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         // 不同的版本不一样，4.3之前ITelephony没有getDeviceId
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.READ_PHONE_STATE},
                     0);
-            return;
+        } else {
+            renderHWInfo();
         }
+
+    }
+
+    private void renderHWInfo() {
+        String apideviceId = null;
+        try {
+            apideviceId = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+
+        } catch (Exception ignored) {
+        }
+
+        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
         textView.setText(
                 "设备信息 \n最终方法获取IMEI  : " + DeviceIdUtil.getDeviceId(mActivity)
                         + "\n最终方法获取MAC地址 : " + MacAddressUtils.getMacAddress(mActivity)
                         + "\n最终方法获取AndroidID  : " + IAndroidIdUtil.getAndroidId(mActivity)
                         + "\n是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
-                        + " \n\n可Hook系统API获取Deviceid: " + ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId()
+                        + " \n\n可Hook系统API获取Deviceid: " + apideviceId
                         + "\n真实 反Hook Proxy代理获取Deviceid : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
                         + "\n真实 反Hook Proxy代理获取Deviceid level2 :" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
@@ -166,7 +183,6 @@ public class MainActivity extends AppCompatActivity  {
         AndroidDeviceIMEIUtil.getMac(new IpScanner.OnScanListener() {
             @Override
             public void scan(Map<String, String> resultMap) {
-                Log.v("lishang", resultMap.toString());
             }
         });
     }
