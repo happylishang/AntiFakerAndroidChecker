@@ -158,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
                 + "\n\n通过系统API获取MAC地址  ： " + SysAPIUtil.getMacAddress(mActivity)
                 + "\nIwifmanager 获取mac level 0  ： " + IWifiManagerUtil.getMacAddress(mActivity)
                 + "\n通过NetworkInterface获取MAC地址  ： " + MacAddressUtils.getMacAddressByWlan0(mActivity)
+                + "\n通过ADB获取MAC地址  ： " + MacAddressUtils.getMacInfoByAdb()
+
                 + "\n\nAndroidID信息 ："
                 + "\n\n通过系统API获取ANDROID_ID (XPOSED可以HOOK)  ： " + SysAPIUtil.getAndroidId(mActivity)
                 + "\n反射获取系统 ANDROID_IDISettingUtils  ： " + ISettingUtils.getAndroidProperty(mActivity, Settings.Secure.ANDROID_ID)
