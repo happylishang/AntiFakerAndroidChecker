@@ -51,15 +51,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mActivity = this;
 
-        findViewById(R.id.btn_async_simu).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        findViewById(R.id.btn_async_simu).setOnClickListener(v -> EmuCheckUtil.checkEmulatorFromCache(getApplicationContext(),
+                new EmuCheckUtil.CheckEmulatorCallBack() {
+                    @Override
+                    public void onCheckSuccess(boolean isEmulator) {
+                        TextView textView = (TextView) findViewById(R.id.btn_async_simu);
+                        textView.setText("  内存异步非UI进程获取是否模拟器 " +isEmulator);
+                    }
 
-                Intent intent = new Intent(MainActivity.this, EmulatorCheckService.class);
-                bindService(intent, serviceConnection, Service.BIND_AUTO_CREATE);
-
-            }
-        });
+                    @Override
+                    public void onCheckFaild() {
+                        TextView textView = (TextView) findViewById(R.id.btn_async_simu);
+                        textView.setText("  内存异步非UI进程获取是否模拟器 失败" );
+                    }
+                }));
 
         findViewById(R.id.btn_sycn_syc_simu).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,25 +102,6 @@ public class MainActivity extends AppCompatActivity {
         requestGetInfo();
     }
 
-    final ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            IEmulatorCheck emulatorCheck = IEmulatorCheck.Stub.asInterface(service);
-            if (emulatorCheck != null) {
-                try {
-                    TextView textView = (TextView) findViewById(R.id.btn_async_simu);
-                    textView.setText("  内存异步非UI进程获取是否模拟器 " + emulatorCheck.isEmulator());
-                    unbindService(this);
-                } catch (RemoteException e) {
-                    Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-        }
-    };
 
     @Override
     public void onRequestPermissionsResult(int requestCode,

@@ -1,5 +1,7 @@
 package com.snail.antifake.deviceid.emulator;
 
+import static android.content.Context.BIND_AUTO_CREATE;
+
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.ComponentName;
@@ -14,8 +16,10 @@ import android.os.RemoteException;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.PermissionChecker;
 
+import com.snail.antifake.IEmulatorCheck;
 import com.snail.antifake.deviceid.AndroidDeviceIMEIUtil;
 import com.snail.antifake.deviceid.ShellAdbUtils;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
@@ -119,19 +123,6 @@ public class EmuCheckUtil {
                 && TextUtils.isEmpty(deviceId2));
     }
 
-    public static String getFinalIMEI(Context context) {
-        return DeviceIdUtil.getDeviceId(context);
-    }
-
-
-    public static String getIMEIT(Context context) {
-        return ITelephonyUtil.getDeviceId(context);
-    }
-
-    public static String getIMEIP(Context context) {
-        return IPhoneSubInfoUtil.getDeviceId(context);
-    }
-
     public static boolean hasQemuSocket() {
 
         File qemuSocket = new File("/dev/socket/qemud");
@@ -189,6 +180,27 @@ public class EmuCheckUtil {
             return stringBuilder.toString();
         }
         return "";
+    }
+    public static void checkEmulatorFromCache(final Context context, @NonNull final EmuCheckUtil.CheckEmulatorCallBack callBack) {
+        Intent intent = new Intent(context, EmulatorCheckService.class);
+        context.bindService(intent, new ServiceConnection() {
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                IEmulatorCheck IEmulatorCheck = com.snail.antifake.IEmulatorCheck.Stub.asInterface(service);
+                if (IEmulatorCheck != null) {
+                    try {
+                        callBack.onCheckSuccess(IEmulatorCheck.isEmulator());
+                        context.unbindService(this);
+                    } catch (RemoteException var5) {
+                        callBack.onCheckFaild();
+                        context.unbindService(this);
+                    }
+                }
+
+            }
+
+            public void onServiceDisconnected(ComponentName name) {
+            }
+        }, BIND_AUTO_CREATE);
     }
 
 
