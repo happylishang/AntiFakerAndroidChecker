@@ -135,10 +135,12 @@ public class MainActivity extends AppCompatActivity {
 
         binding.tvDeviceid.setText(
                 " \n \n设备信息 " +
-                        "  \n\n最终方法获取IMEI  : " + AndroidDeviceIMEIUtil.getDeviceId(mActivity) +  " 是否有效 " + AndroidDeviceIMEIUtil.isValidIMEI(AndroidDeviceIMEIUtil.getDeviceId(mActivity))
+                        "  \n\n最终方法获取IMEI  : " + AndroidDeviceIMEIUtil.getDeviceId(mActivity) + " 是否有效 " + AndroidDeviceIMEIUtil.isValidIMEI(AndroidDeviceIMEIUtil.getDeviceId(mActivity))
                         + "\n最终方法获取MAC地址 : " + AndroidDeviceIMEIUtil.getMacAddress(mActivity) + " 是否有效 " + AndroidDeviceIMEIUtil.isValidAddress(MacAddressUtils.getMacAddress(mActivity))
+                        + "\n最终方法获取AndroidID : " + AndroidDeviceIMEIUtil.getAndroidId(mActivity)
+                        + "\n最终方法获取序列号 : " + AndroidDeviceIMEIUtil.getSerialno()
                         + "\n特征值检测是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
-                        + " \n\nIMEI信息: "
+                        + " \n\nIMEI详细信息: "
                         + " \n\n可Hook系统API获取Deviceid: " + apideviceId
                         + "\nProxy代理获取Deviceid level0 : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
                         + "\nProxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
