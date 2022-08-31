@@ -26,11 +26,19 @@
         android:layout_height="wrap_content"
         android:text="当前进程同步获取是不是模拟器 64可能崩溃  内存模型"/>
 
+
+    <Button
+        android:id="@+id/btn_sample"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="特征信息获取是否模拟器"/>
+
     <Button
         android:id="@+id/btn_sycn_integer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="整体获取是否模拟器"/>
+
 
     <ScrollView
         android:layout_width="match_parent"

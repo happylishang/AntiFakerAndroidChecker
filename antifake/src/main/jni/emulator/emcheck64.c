@@ -50,7 +50,6 @@ jboolean JNICALL detect(JNIEnv *env, jclass jclass1) {
     load(env);
 
     int type = getArch(env);
-    LOGI(" mmap copy  exec  %x", type);
     if (type == 0 || type == 1) { return JNI_TRUE; }
     char code32[] =
             "\x04\xe0\x2d\xE5"

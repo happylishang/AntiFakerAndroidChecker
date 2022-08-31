@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 for (int i = 0; i < 100; i++) {
                     TextView textView = (TextView) findViewById(R.id.btn_sycn_syc_simu);
-                    textView.setText(" 同步获取是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
+                    textView.setText(" 内存同步是否模拟器 " + EmulatorDetectUtil.isEmulator(MainActivity.this));
                 }
 
             }
@@ -83,9 +83,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 TextView textView = (TextView) findViewById(R.id.btn_sycn_integer);
-                textView.setText(" 是否模拟器 " + EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
+                textView.setText("综合判断是否模拟器 " + EmulatorDetectUtil.isEmulatorFromAll(MainActivity.this));
             }
         });
+        findViewById(R.id.btn_sample).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView textView = (TextView) findViewById(R.id.btn_sample);
+                textView.setText("特征信息判断是否模拟器 " + AndroidDeviceIMEIUtil.isRunOnEmulator(MainActivity.this));
+            }
+        });
+
         requestGetInfo();
     }
 
@@ -96,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             if (emulatorCheck != null) {
                 try {
                     TextView textView = (TextView) findViewById(R.id.btn_async_simu);
-                    textView.setText(" 异步非UI进程获取是否模拟器 " + emulatorCheck.isEmulator());
+                    textView.setText("  内存异步非UI进程获取是否模拟器 " + emulatorCheck.isEmulator());
                     unbindService(this);
                 } catch (RemoteException e) {
                     Toast.makeText(MainActivity.this, "获取进程崩溃", Toast.LENGTH_SHORT).show();
