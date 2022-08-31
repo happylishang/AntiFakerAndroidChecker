@@ -1,74 +1,67 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:paddingBottom="16dp"
-              android:paddingLeft="@dimen/activity_horizontal_margin"
-              android:paddingRight="@dimen/activity_horizontal_margin"
-              android:paddingTop="@dimen/activity_vertical_margin"
->
-
-    <Button
-        android:id="@+id/btn_hwinfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="获取ID硬件信息"/>
-
-    <Button
-        android:id="@+id/btn_async_simu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Binder多进程判断是不是模拟器 不崩溃 内存模型"/>
-
-    <Button
-        android:id="@+id/btn_sycn_syc_simu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="当前进程同步获取是不是模拟器 64可能崩溃  内存模型"/>
-
-
-    <Button
-        android:id="@+id/btn_sample"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="特征信息获取是否模拟器"/>
-
-    <Button
-        android:id="@+id/btn_sycn_integer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="整体获取是否模拟器"/>
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="16dp">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tv_dna"
+
+            <Button
+                android:id="@+id/btn_hwinfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-            />
+                android:text="获取ID硬件信息" />
 
-            <TextView
-                android:id="@+id/tv_getdeviceid"
+            <Button
+                android:id="@+id/btn_async_simu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="获取 deviceID"
-            />
+                android:text="Binder多进程判断是不是模拟器 不崩溃 内存模型" />
+
+            <Button
+                android:id="@+id/btn_sycn_syc_simu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="当前进程同步获取是不是模拟器 64可能崩溃  内存模型" />
+
+
+            <Button
+                android:id="@+id/btn_sample"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="特征信息获取是否模拟器" />
+
+            <Button
+                android:id="@+id/btn_sycn_integer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="整体获取是否模拟器" />
+
 
             <TextView
-                android:id="@+id/tv_all"
+                android:id="@+id/tv_deviceid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="获取 deviceID" />
+
+            <TextView
+                android:id="@+id/tv_androidid_mac_serial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-
-                android:text=" MAC地址"
-            />
+                android:textSize="14sp"
+                android:text=" MAC地址" />
 
         </LinearLayout>
     </ScrollView>

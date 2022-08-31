@@ -8,6 +8,8 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.snail.antifake.deviceid.androidid.IAndroidIdUtil;
 import com.snail.antifake.deviceid.deviceid.DeviceIdUtil;
 import com.snail.antifake.deviceid.emulator.EmuCheckUtil;
@@ -152,8 +154,25 @@ public class AndroidDeviceIMEIUtil {
         return sBatteryChangeReceiver != null ? sBatteryChangeReceiver.getCurrentLevel() : -1;
     }
 
-    public static void getMac(IpScanner.OnScanListener listener) {
-        IpScanner ipScanner = new IpScanner();
-        ipScanner.startScan(listener);
+
+    // 过滤掉几个无效MAC
+    public static boolean isValidAddress(String macAddress) {
+
+        return !TextUtils.isEmpty(macAddress)
+                && !macAddress.equals("02:00:00:00:00:00")
+                && !macAddress.equals("00:90:4C:11:22:33")
+                && !macAddress.equals("00:90:4c:11:22:33");
+    }
+
+    public static boolean isValidIMEI(@NonNull String content) {
+        if (TextUtils.isEmpty(content)
+                || content.toLowerCase().equals("null"))//获取不到不能作为参考，可能因为权限拿不到
+            return false;
+        for (int i = 0; i < content.length(); i++) {
+            if (content.charAt(i) != '0') {
+                return true;
+            }
+        }
+        return false;
     }
 }

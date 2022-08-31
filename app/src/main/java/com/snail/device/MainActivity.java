@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,21 +28,25 @@ import com.snail.antifake.deviceid.macaddress.IWifiManagerUtil;
 import com.snail.antifake.deviceid.macaddress.MacAddressUtils;
 import com.snail.antifake.jni.EmulatorDetectUtil;
 import com.snail.antifake.jni.PropertiesGet;
+import com.snail.device.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private Activity mActivity;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         mActivity = this;
         /**
          *  子进程检测是否是模拟器，不影响UI线程
          */
-        findViewById(R.id.btn_async_simu).setOnClickListener(v -> EmuCheckUtil.checkEmulatorFromCache(getApplicationContext(),
+        binding.btnAsyncSimu.setOnClickListener(v -> EmuCheckUtil.checkEmulatorFromCache(getApplicationContext(),
+
                 new EmuCheckUtil.CheckEmulatorCallBack() {
                     @Override
                     public void onCheckSuccess(boolean isEmulator) {
@@ -58,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         /**
          *  UI进程检测，可能影响UI线程
          */
-        findViewById(R.id.btn_sycn_syc_simu).setOnClickListener(new View.OnClickListener() {
+        binding.btnSycnSycSimu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for (int i = 0; i < 100; i++) {
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //        特征值判断是否模拟器
-        findViewById(R.id.btn_sample).setOnClickListener(new View.OnClickListener() {
+        binding.btnSample.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextView textView = (TextView) findViewById(R.id.btn_sample);
@@ -77,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 //        综合判断一次
-        findViewById(R.id.btn_sycn_integer).setOnClickListener(new View.OnClickListener() {
+        binding.btnSycnInteger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TextView textView = (TextView) findViewById(R.id.btn_sycn_integer);
@@ -86,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //获取其他硬件信息
-        findViewById(R.id.btn_hwinfo).setOnClickListener(new View.OnClickListener() {
+        binding.btnHwinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 requestGetInfo();
@@ -128,43 +133,44 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception ignored) {
         }
 
-        TextView textView = (TextView) findViewById(R.id.tv_getdeviceid);
-        textView.setText(
-                "设备信息 \n最终方法获取IMEI  : " + DeviceIdUtil.getDeviceId(mActivity)
-                        + "\n最终方法获取MAC地址 : " + MacAddressUtils.getMacAddress(mActivity)
-                        + "\n最终方法获取AndroidID  : " + IAndroidIdUtil.getAndroidId(mActivity)
-                        + "\n是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
+        binding.tvDeviceid.setText(
+                " \n \n设备信息 " +
+                        "  \n\n最终方法获取IMEI  : " + AndroidDeviceIMEIUtil.getDeviceId(mActivity) +  " 是否有效 " + AndroidDeviceIMEIUtil.isValidIMEI(AndroidDeviceIMEIUtil.getDeviceId(mActivity))
+                        + "\n最终方法获取MAC地址 : " + AndroidDeviceIMEIUtil.getMacAddress(mActivity) + " 是否有效 " + AndroidDeviceIMEIUtil.isValidAddress(MacAddressUtils.getMacAddress(mActivity))
+                        + "\n特征值检测是否模拟器  : " + EmuCheckUtil.mayOnEmulator(mActivity)
+                        + " \n\nIMEI信息: "
                         + " \n\n可Hook系统API获取Deviceid: " + apideviceId
-                        + "\n真实 反Hook Proxy代理获取Deviceid : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
-                        + "\n真实 反Hook Proxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
-                        + "\n真实 反Hook Proxy代理获取Deviceid level2 :" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
-                        + "\n真实 ITelephonyUtil反Hook 获取DeviceId : " + ITelephonyUtil.getDeviceIdLevel0(mActivity)
-                        + "\n真实 ITelephonyUtil反Hook 获取DeviceId level1 : " + ITelephonyUtil.getDeviceIdLevel1(mActivity)
-                        + "\n自定义ServiceManager获取getDeviceId level2  :" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
-//                        + "\n" + EmuCheckUtil.getCpuInfo()
-                        + "\n系统架构 " + PropertiesGet.getString("ro.product.cpu.abi")
-                        + "\n获取链接的路由器地址" + MacAddressUtils.getConnectedWifiMacAddress(getApplication())
-        );
-        textView = (TextView) findViewById(R.id.tv_all);
+                        + "\nProxy代理获取Deviceid level0 : " + IPhoneSubInfoUtil.getDeviceIdLevel0(mActivity)
+                        + "\nProxy代理获取Deviceid level1 :" + IPhoneSubInfoUtil.getDeviceIdLevel1(mActivity)
+                        + "\nProxy代理获取Deviceid level2 :" + IPhoneSubInfoUtil.getDeviceIdLevel2(mActivity)
+                        + "\nITelephonyUtil获取DeviceId level0: " + ITelephonyUtil.getDeviceIdLevel0(mActivity)
+                        + "\nITelephonyUtil获取DeviceId level1 : " + ITelephonyUtil.getDeviceIdLevel1(mActivity)
+                        + "\nITelephonyUtil获取DeviceId level2 :" + ITelephonyUtil.getDeviceIdLevel2(mActivity)
+                     );
 
-        textView.setText("\n系统API反射获取序列号 ： " + SysAPIUtil.getSerialNumber(mActivity)
+        binding.tvAndroididMacSerial.setText("\n\n序列号信息 ：" +
+                "  \n\n系统API反射获取序列号 ： " + SysAPIUtil.getSerialNumber(mActivity)
                 + "\n系统API反射获取序列号 ： " + SysAPIUtil.getJavaSerialNumber(mActivity)
                 + "\n直接通过 Build Serial " + Build.SERIAL
                 + "\n通过ADB Build Serial " + AndroidDeviceIMEIUtil.getSerialno()
                 + "\n直接native获取  Serial " + PropertiesGet.getString("ro.serialno")
-                + "\n通过系统API获取MAC地址  ： " + SysAPIUtil.getMacAddress(mActivity)
+                + "\n\nMAC地址信息 ："
+                + "\n\n通过系统API获取MAC地址  ： " + SysAPIUtil.getMacAddress(mActivity)
                 + "\nIwifmanager 获取mac level 0  ： " + IWifiManagerUtil.getMacAddress(mActivity)
                 + "\n通过NetworkInterface获取MAC地址  ： " + MacAddressUtils.getMacAddressByWlan0(mActivity)
-                + "\n系统API获取手机型号 （作假）  ： " + SysAPIUtil.getPhoneManufacturer()
-                //Settings.Secure.ANDROID_ID Java类可以被HOOK 并且很简单
-                + "\n通过系统API获取ANDROID_ID (XPOSED可以HOOK)  ： " + SysAPIUtil.getAndroidId(mActivity)
+                + "\n\nAndroidID信息 ："
+                + "\n\n通过系统API获取ANDROID_ID (XPOSED可以HOOK)  ： " + SysAPIUtil.getAndroidId(mActivity)
                 + "\n反射获取系统 ANDROID_IDISettingUtils  ： " + ISettingUtils.getAndroidProperty(mActivity, Settings.Secure.ANDROID_ID)
                 + "\n反射获取系统 ANDROID_ID ISettingUtils level2  ： " + ISettingUtils.getAndroidPropertyLevel1(mActivity, Settings.Secure.ANDROID_ID)
+                + "\n\n其他手机型号信息 ："
+                + "\n系统API获取手机型号 （作假）  ： " + SysAPIUtil.getPhoneManufacturer()
                 + "\nnative ro.product.manufacturer" + PropertiesGet.getString("ro.product.manufacturer")
                 + "\nnative ro.product.model  " + PropertiesGet.getString("ro.product.model")
                 + "\nnative ro.product.device " + PropertiesGet.getString("ro.product.device")
-                + "\nnative ro.kernel.qemu " + PropertiesGet.getString("ro.kernel.qemu")
                 + "\nnative ro.product.name" + PropertiesGet.getString("ro.product.name")
+                + "\n\n"
+                + "\n系统架构  " + PropertiesGet.getString("ro.product.cpu.abi")
+                + "\n获取链接的路由器地址 " + MacAddressUtils.getConnectedWifiMacAddress(getApplication())
 
 
         );
