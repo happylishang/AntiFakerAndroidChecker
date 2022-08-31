@@ -17,7 +17,7 @@ task androidSourcesJar(type: Jar) {
 ext {
     PUBLISH_GROUP_ID = 'io.github.happylishang'
     PUBLISH_ARTIFACT_ID = 'antifake'
-    PUBLISH_VERSION = '1.5.0'
+    PUBLISH_VERSION = '1.7.0'
 }
 
 ext["signing.keyId"] = ''

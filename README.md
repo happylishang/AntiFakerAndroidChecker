@@ -11,9 +11,30 @@
 
        implementation 'io.github.happylishang:antifake:1.6.0'
     
-Java代码中
+Java代码中：
 
-      EmulatorDetectUtil.isEmulator(context)
+模拟器检测激进做法
+     
+     EmulatorDetectUtil.isEmulatorFromAll(context)
+
+模拟器保守做法
+
+    AndroidDeviceIMEIUtil.isRunOnEmulator(context) //特征值判断
+
+非UI进程启动检测，回调上报
+
+    EmuCheckUtil.checkEmulatorFromCache(getApplicationContext(),
+                new EmuCheckUtil.CheckEmulatorCallBack() {
+                    @Override
+                    public void onCheckSuccess(boolean isEmulator) {
+                        
+                    }
+
+                    @Override
+                    public void onCheckFaild() {
+                        
+                    }
+                })
 
 
 
