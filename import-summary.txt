@@ -62,6 +62,7 @@ connectivity to download dependencies.
 
 Bugs:
 -----
+
 If for some reason your project does not build, and you determine that
 it is due to a bug or limitation of the Eclipse to Gradle importer,
 please file a bug at http://b.android.com with category
