@@ -3,7 +3,7 @@
 ##  本库目标：
 
 * 1 检测运行设备是否模拟器  
-* 2 获取相对真实的IMEI AndroidId 序列号 MAc地址等
+* 2 获取相对真实的IMEI AndroidId 序列号 MAC地址等
 
 
        
