@@ -6,6 +6,7 @@
 * 2 获取相对真实的IMEI AndroidId 序列号 MAC地址等
 
 
+
        
 ### 用法 MavenCentral
 
@@ -57,3 +58,5 @@ ARM与模拟器采用的Simple X86在架构上有很大区别，可利用SMC（�
 #### Android 10.0之后，序列号、IMEI 非系统APP获取不到
 
 #### Android 11.0之后，序列号、IMEI MAC 非系统APP获取不到
+
+java 1.8 demo更容易跑起来
